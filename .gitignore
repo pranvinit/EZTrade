@@ -5,8 +5,8 @@
 /.pnp
 .pnp.js
 
-# testing
-/coverage
+# server dependencies
+/server/node_modules/
 
 # production
 /build
