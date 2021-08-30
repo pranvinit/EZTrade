@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+:root{
+    --primary-font : Arial, Helvetica, sans-serif;
+    --fancy-font: 'Fira Sans', sans-serif;
+}
+
+#mainContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#signUpContainer{
+    margin: 50px auto;
+    margin-bottom: 0;
+    width: 40%;
+    height: 90vh;
+    min-width: 450px;
+    min-height: 750px;
+}
+
+#addSellerForm, #loginForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100%;
+    background-color: yellow;
+}
+
+#signUpHeading{
+    width: 80%;
+    text-align: center;
+    font-family: var(--fancy-font);
+    font-size: 2.3em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+input, textarea{
+    outline: none;
+    resize: none;
+    border: none;
+}
+
+.shopNameInput, .emailInput, .addressInput{
+    width: 50%;
+    height: 30px;
+    padding: 8px 14px;
+    font-family: var(--primary-font);
+    font-size: 18px;
+    transition: all 100ms linear;
+}
+
+.shopNameInput:focus, .smallInput:focus, .emailInput:focus{
+    border: 4px solid #F4B400;
+    border-radius: 30px;
+}
+
+.generalInfo{
+    display: flex;
+    width: calc(50% + 28px);
+    align-items: center;
+    justify-content: space-between;
+}
+
+.smallInput{
+    width: 50%;
+    height: 30px;
+    padding: 8px 14px;
+    font-family: var(--primary-font);
+    font-size: 18px;
+    transition: all 100ms linear;
+}
+.passwordInput, .telInput{
+    margin-left: 20px;
+}
+
+.addressInput{
+    resize: none;
+    height: 25%;
+}
+.addressInput:focus{
+    border: 4px solid #F4B400;
+    border-radius: 14px;
+}
+
+/* login component */
+#loginContainer{
+    margin: 50px auto;
+    margin-bottom: 0;
+    width: 30%;
+    height: 70vh;
+    min-width: 450px;
+    min-height: 400px;
+}
+
+#loginHeading{
+    width: 80%;
+    text-align: center;
+    font-family: var(--fancy-font);
+    font-size: 2em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.loginUsername, .loginPassword{
+    width: 50%;
+    height: 40px;
+    font-size: 18px;
+    padding: 8px 14px;
+    font-family: var(--primary-font);
+    transition: all 100ms linear;
+}
+
+.loginUsername:focus, .loginPassword:focus{
+    border: 4px solid #F4B400;
+    border-radius: 34px;
+}

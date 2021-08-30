@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+:root{
+    --primary-font : Arial, Helvetica, sans-serif;
+    --fancy-font: 'Fira Sans', sans-serif;
+}
+
+#mainFooter{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    background-color: #222;
+}
+
+#socialsContainer{
+    width: 10%;
+    height: 100%;
+}
+
+#socialsUl{
+    list-style: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.socials{
+    color: white;
+    transition: all 250ms linear;
+}
+
+
+#copyInfo{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: white;
+    font-family: var(--primary-font);
+
+}
+
+.ig:hover{
+    fill: #f20089;
+}
+.yt:hover{
+    fill: #FF0000;
+}
+.twt:hover{
+    fill: #1DA1F2;
+}

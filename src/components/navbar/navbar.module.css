@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+:root{
+    --primary-font : Arial, Helvetica, sans-serif;
+    --fancy-font: 'Fira Sans', sans-serif;
+}
+
+#mainNavbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 80px;
+    background-color: #222;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.homeLink{
+    text-decoration: none;
+    color: white;
+}
+
+#logoContainer{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+    border: 3px solid violet;
+    cursor: pointer;
+    animation: border-col 3s infinite linear;
+}
+
+#logoContainer span{
+    font-size: 18px;
+    letter-spacing: 0.09em;
+    color: white;
+    font-family: var(--fancy-font);
+    font-weight: bold;
+}
+
+#navListContainer{
+    width: 50%;
+    height: 100%;
+}
+
+#navList{
+    list-style: none;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.navLi{
+    text-decoration: none;
+    color: white;
+    font-family: var(--primary-font);
+    font-weight: 500;
+    padding: 0 6px;
+}
+
+.selected{
+    border-bottom: 2px solid #F4B400;
+}
+
+@keyframes border-col{
+    0%{
+        border-color: violet;
+    }
+    14.28%{
+        border-color: indigo;
+    }
+    28.57%{
+        border-color: blue;
+    }
+    42.85%{
+        border-color: green;
+    }
+    57.14%{
+        border-color: yellow;
+    }
+    71.4%{
+        border-color: orange;
+    }
+    85.71%{
+        border-color: red;
+    }
+    100%{
+        border-color: violet;
+    }
+}

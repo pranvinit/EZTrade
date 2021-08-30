@@ -1,0 +1,10 @@
+#spinnerContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#alert{
+    width: 20%;
+    min-width: 200px;
+    margin: 30px auto;
+}

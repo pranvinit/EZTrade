@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+:root{
+    --primary-font : Arial, Helvetica, sans-serif;
+    --fancy-font: 'Fira Sans', sans-serif;
+}
+
+#itemsContainer{
+    display: grid;
+    box-sizing: border-box;
+    width: 80vw;
+    margin: 20px auto;
+    padding: 50px;
+    grid-template: repeat(1, 370px)/repeat(auto-fit, 300px);
+    align-items: center;
+    justify-content: center;
+    grid-gap: 100px;
+    grid-auto-flow: dense;
+    grid-auto-rows: 370px;
+    background-color: #eeeef1;
+}
+.singleItemLink{
+    text-decoration: none;
+    color: black;
+}
+
+#itemEntry{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 200ms linear;
+    background-color: #fff;
+}
+
+#itemEntry:hover{
+    border-color: #4285F4;
+}
+
+#itemTitleContainer{
+    display: flex;
+    min-height: 10%;
+    align-items: center;
+    font-family: var(--primary-font);
+    font-size: 24px;
+    color: #666e;
+}
+#itemMetaContainer{
+    display: flex;
+    height: 10%;
+    align-items: center;
+    position: relative;
+    font-family: var(--primary-font);
+    font-size: 20px;
+}
+#itemPriceContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    left: 0px;
+    width: 35%;
+}
+#itemPriceContainer span:nth-child(1){
+    text-decoration: line-through;
+}
+#itemPriceContainer span:nth-child(2){
+    color: #388e3c;
+}
+
+#itemMetaContainer > span{
+    position: absolute;
+    font-size: 18px;
+    right: 20px;
+}
+#itemImageDiv{
+    height: 50%;
+    overflow: hidden;
+}
+#itemImageDiv img{
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+}
+#itemOptionsContainer{
+    height: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+#itemOptionsContainer > span{
+    font-size: 14px;
+    font-family: var(--primary-font);
+    text-transform: uppercase;
+    padding: 6px;
+    background-color: rgb(228, 228, 231);
+    text-align: center;
+}
+#itemOptionsContainer div{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#itemReviewContainer{
+    position: relative;
+    height: 10%;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.review{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 40%;
+    font-family: var(--primary-font);
+    font-weight: 600;
+}
+#itemReviewContainer span:nth-child(1){
+    width: 25%;
+    height: 70%;
+    color: white;
+    background-color: #388e3c;
+}
