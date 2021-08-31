@@ -3,15 +3,11 @@ import axios from 'axios';
 import styles from './sellerAccount.module.css';
 
 //form specific
-import { ButtonGroup } from '@material-ui/core';
-import { Button } from '@material-ui/core';
+import { ButtonGroup, Button } from '@material-ui/core';
 import { Save } from '@material-ui/icons';
 
-//success alert specific
-import { Alert } from '@material-ui/lab';
-import { IconButton } from '@material-ui/core';
-import { Collapse } from '@material-ui/core';
-import { Close } from '@material-ui/icons';
+//importing utils
+import AlertComponent from '../../utils/AlertComponent';
 
 //importing login component
 import Login from './Login';
@@ -38,14 +34,31 @@ export default function SellerAccount() {
 
     const [response, setResponse] = useState({})
     const handleResponse = (res) => {
-        setResponse(res);
-        if (res.operation === 'success') {
+        if (res.auth) {
+            setResponse(prev => ({
+                ...prev,
+                message: res.message,
+                operation: 'success'
+            }))
             setTimeout(() => {
                 setLoginOption(true)
             }, 2000)
+        } else {
+            setResponse(prev => ({
+                ...prev,
+                message: res.message,
+                operation: 'warning'
+            }))
         }
     }
 
+    const handleError = (err) => {
+        setResponse(prev => ({
+            ...prev,
+            message: 'Internal server error',
+            operation: 'warning'
+        }))
+    }
     const handleGenderClick = ({ currentTarget }) => {
         setFormInput((prev) => ({
             ...prev,
@@ -56,44 +69,31 @@ export default function SellerAccount() {
     const handleSubmit = (e) => {
         e.preventDefault();
         window.scrollTo(0, 0)
-        setFormInput({});
         const addSeller = async () => {
-            const response = await axios({
-                method: 'POST',
-                url: '/addSeller',
-                data: formInput
-            });
-            handleResponse(response.data)
+            try {
+                const response = await axios({
+                    method: 'POST',
+                    url: '/addSeller',
+                    data: formInput
+                });
+                handleResponse(response.data)
+
+            } catch (err) {
+                handleError(err.response)
+            }
         }
+        setOpen(true);
         addSeller();
         setFormInput({});
-        setOpen(true);
     }
 
     const [open, setOpen] = useState(false);
+    const changeOpen = () => setOpen(false);
     return (
         <div id={styles.mainContainer}>
             {loginOption && <Login />}
             {!loginOption && <div id={styles.signUpContainer}>
-                <Collapse in={open}>
-                    <Alert
-                        severity={response.operation}
-                        action={
-                            <IconButton
-                                aria-label="close"
-                                color="inherit"
-                                size="small"
-                                onClick={() => {
-                                    setOpen(false);
-                                }}
-                            >
-                                <Close fontSize="inherit" />
-                            </IconButton>
-                        }
-                    >
-                        {response.message}
-                    </Alert>
-                </Collapse>
+                <AlertComponent message={response.message} operation={response.operation} open={open} changeOpen={changeOpen} />
                 <form action="#" onSubmit={handleSubmit} id={styles.addSellerForm}>
                     <span id={styles.signUpHeading}>Fill the form to setup your seller profile</span>
                     <div className={styles.generalInfo}>

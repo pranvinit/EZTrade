@@ -9,10 +9,9 @@ addItemHandler.post('/', async (req, res) => {
         delete data.files;
         const itemData = new shopItemModel(data);
         await itemData.save();
-        res.status(200).json({ message: 'done bro' })
+        res.status(200).send()
     } catch (err) {
-        console.log(err)
-        res.status(200).json({ message: 'failed bro' })
+        res.status(500).send()
     }
 });
 module.exports = addItemHandler

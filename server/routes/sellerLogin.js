@@ -15,9 +15,9 @@ sellerProfileHandler.post('/', async (req, res) => {
                 const token = jwt.sign({ id: match.id }, 'allowAccess', {
                     expiresIn: (60 * 60 * 12)
                 })
-                res.status(200).json({ authentication: true, jwtToken: token, message: 'authorisation success,  Redirecting..' });
+                res.status(200).json({ authentication: true, jwtToken: token, message: 'Authentication success,  Redirecting..' });
             } else {
-                res.status(200).json({ authentication: false, message: 'authorisation failed' });
+                res.status(200).json({ authentication: false, message: 'Wrong credentials, authentication failed' });
             }
         }
         catch {
@@ -25,7 +25,7 @@ sellerProfileHandler.post('/', async (req, res) => {
         }
     }
     else {
-        res.status(200).json({ authentication: false, message: "seller doesn't exist" });
+        res.status(404).send();
     }
 })
 

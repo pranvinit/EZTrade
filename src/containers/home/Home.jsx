@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import styles from './home.module.css';
+import axios from 'axios';
 //material ui specific
 import { CircularProgress } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
 //importing container components
 import SearchBar from '../../components/searchBar/SearchBar';
-import axios from 'axios';
+import Categories from '../categories/Categories';
 
 //importing presentational components;
-import Items from '../../components/items/Items'
+import FeaturedItem from '../../components/featuredItem/FeaturedItem';
+import Items from '../../components/items/Items';
 
 
 export default function Home() {
@@ -45,18 +47,19 @@ export default function Home() {
                     setMaxItems(true);
                 }
                 setItems((prev) => [...prev, ...response.data])
+                setLoading(false)
             }
             getItems()
-            setLoading(false)
         }
     }, [lazyCount])
-
 
     return (
         <div id={styles.homeContainer}>
             <SearchBar />
-            {!loading && <Items items={items} />}
-            <div id={styles.spinnerContainer}>
+            <FeaturedItem />
+            <Categories />
+            {items.length ? <Items items={items} /> : <div className={styles.spinnerContainer}><CircularProgress /></div>}
+            <div className={styles.spinnerContainer}>
                 {loading && <CircularProgress />}
             </div>
             {maxItems && <Alert id={styles.alert} severity="info">No more items</Alert>}

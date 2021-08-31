@@ -1,10 +1,12 @@
-#spinnerContainer{
+.spinnerContainer{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 20px 0;
 }
 #alert{
     width: 20%;
     min-width: 200px;
-    margin: 30px auto;
+    margin: 0 auto;
+    margin-bottom: 20px;
 }

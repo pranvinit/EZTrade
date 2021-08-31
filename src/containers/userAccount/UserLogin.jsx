@@ -1,23 +1,22 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import styles from './sellerAccount.module.css';
+import { useHistory } from 'react-router';
+import styles from './userAccount.module.css';
 
-//importing async thunk
-import { fetchSellerProfile } from './sellerAccountSlice';
 //form specific
 import { Button } from '@material-ui/core';
 import { VpnKey } from '@material-ui/icons';
 //importing utils
 import AlertComponent from '../../utils/AlertComponent';
 
+//importing async thunks
+import { fetchUserProfile } from './userAccountSlice';
 
-export default function Login() {
-    const dispatch = useDispatch();
-
+export default function UserLogin() {
     const [formInput, setFormInput] = useState({});
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const handleChange = ({ target }) => {
         const { name, value } = target;
@@ -28,6 +27,7 @@ export default function Login() {
     }
 
     const [response, setResponse] = useState({})
+    console.log(response)
 
     const handleResponse = (data) => {
         setResponse((prev) => ({
@@ -37,10 +37,11 @@ export default function Login() {
         }))
         setOpen(true);
         if (data.authentication) {
-            localStorage.setItem('sellerJwtToken', data.jwtToken);
-            dispatch(fetchSellerProfile(localStorage.getItem('sellerJwtToken')));
+            console.log(data.jwtToken)
+            localStorage.setItem('userJwtToken', data.jwtToken);
+            dispatch(fetchUserProfile(localStorage.getItem('userJwtToken')));
             setTimeout(() => {
-                history.push('/sell');
+                history.push('/');
             }, 2000)
         }
     }
@@ -48,7 +49,7 @@ export default function Login() {
         if (err.status == 404) {
             setResponse((prev) => ({
                 ...prev,
-                message: 'Seller doesn\'t exist',
+                message: 'User doesn\'t exist',
                 auth: false
             }))
         }
@@ -70,7 +71,7 @@ export default function Login() {
             try {
                 const response = await axios({
                     method: 'POST',
-                    url: '/sellerLogin',
+                    url: '/userLogin',
                     data: formInput
                 })
                 handleResponse(response.data)
@@ -81,15 +82,14 @@ export default function Login() {
         checkAuth();
         setFormInput({});
         setOpen(true);
-
     }
+
+
     const [open, setOpen] = useState(false);
     const changeOpen = () => setOpen(false);
     return (
         <div id={styles.loginContainer}>
-
             <AlertComponent message={response.message} operation={response.auth ? 'success' : 'warning'} open={open} changeOpen={changeOpen} />
-
             <form action="#" onSubmit={handleSubmit} id={styles.loginForm}>
                 <span id={styles.loginHeading}>Fill the form to log in</span>
                 <input className={styles.loginUsername} type="text" name="username" onChange={handleChange} value={formInput.username || ''} placeholder="Username" required />

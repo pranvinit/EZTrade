@@ -1,8 +1,8 @@
 const express = require('express');
-const authorisationHandler = express.Router();
+const sellerAuthorisationHandler = express.Router();
 const sellerProfileModel = require('../models/sellerProfile');
 
-authorisationHandler.get('/', async (req, res,) => {
+sellerAuthorisationHandler.get('/', async (req, res,) => {
     try {
         const data = await sellerProfileModel.findOne({ _id: req.userId });
         const dataObj = data.toObject()
@@ -16,4 +16,4 @@ authorisationHandler.get('/', async (req, res,) => {
     }
 })
 
-module.exports = authorisationHandler;
+module.exports = sellerAuthorisationHandler;

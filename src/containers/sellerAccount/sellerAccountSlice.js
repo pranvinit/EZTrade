@@ -1,22 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 
 export const fetchSellerProfile = createAsyncThunk(
     'sellerAccount/fetchData',
     async (token) => {
-        const response = await axios.get('/authenticateSeller', {
+        const response = await axios.get('/authoriseSeller', {
             headers: {
                 "x-access-token": token
             }
         })
-        sessionStorage.setItem('tempAuth', response.data.authorisation)
+        sessionStorage.setItem('sellerTempAuth', response.data.authorisation)
         return response.data
     }
 
 )
 
-const tempAuth = sessionStorage.getItem('tempAuth')
+const tempAuth = sessionStorage.getItem('sellerTempAuth')
 const sellerAuthentication = createSlice({
     name: 'sellerAccount',
     initialState: {
@@ -24,7 +23,11 @@ const sellerAuthentication = createSlice({
         data: {},
         hasFetched: false
     },
-    reducers: {}
+    reducers: {
+        'sellerLogout': (state, action) => {
+            return state = {}
+        }
+    }
     ,
     extraReducers: {
         [fetchSellerProfile.pending]: (state, action) => {
@@ -40,6 +43,5 @@ const sellerAuthentication = createSlice({
         }
     }
 })
-
-export const { authentication } = sellerAuthentication.actions;
+export const { sellerLogout } = sellerAuthentication.actions;
 export default sellerAuthentication.reducer;

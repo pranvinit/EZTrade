@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addChange } from './searchBarSlice';
+import { changeQuery } from './searchBarSlice';
 import styles from './searchBar.module.css';
 
 //importing material ui components
@@ -9,12 +9,11 @@ import SearchIcon from '@material-ui/icons/Search';
 
 export default function SearchBar() {
 
-    const searchQuery = useSelector(state => state.searchBar);
+    const searchQuery = useSelector(state => state.searchQuery);
     const dispatch = useDispatch();
-    console.log(searchQuery);
 
     const handleChange = ({ target }) => {
-        dispatch(addChange(target.value))
+        dispatch(changeQuery(target.value))
     }
 
     const handleSearchClick = () => {

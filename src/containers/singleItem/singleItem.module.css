@@ -1,4 +1,214 @@
-/* span{
-    display: block;
-    margin: 50px auto;
-} */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+:root{
+    --primary-font : Arial, Helvetica, sans-serif;
+    --fancy-font: 'Fira Sans', sans-serif;
+}
+*{
+    font-family: var(--primary-font);
+}
+
+/* fetching spinner div */
+#spinnerContainer, #errorId{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#itemDataContainer{
+    display: flex;
+    justify-content: space-evenly;
+}
+#itemMedia{
+    width: 40%;
+    min-height: 80vh;
+    margin: 50px 0;
+}
+
+#itemInfo{
+    background-color: pink;
+    width: 50%;
+}
+
+#extImgDiv{
+    width: 100%;
+    height: 100%;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+#extImgDiv img{
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+#imgPreviewContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    margin-bottom: 50px;
+}
+
+#imgPreview{
+    margin: 0 20px;
+    width: 150px;
+    height: 100%;
+    border: 3px solid transparent;
+    transition: all 100ms linear;
+    overflow: hidden;
+}
+#imgPreview:hover{
+    border-color: #4285F4;
+}
+#imgPreview img{
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+}
+#userActions{
+    background-color: yellow;   
+    height: 20%;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#userOptions{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: space-evenly;
+}
+#userAddress{
+    background-color: violet;
+    box-sizing: border-box;
+    width: 100%;
+    height: 40%;
+    padding: 0 20px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
+}
+#userAddress span:nth-child(1){
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+#userAddress span:nth-child(2){
+    font-size: 18px;
+}
+
+#itemTitle{
+    background-color: red;
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+    height: 70px;
+}
+#itemTitle span{
+    font-size: 2em;
+    font-weight: 500;
+}
+#itemMeta{
+    background-color: yellow;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.itemMetaClass{
+    height: 100%;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+#itemReviews span:nth-child(1){
+    width: 30%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    background-color: #388e3c;
+}
+#itemReviews span:nth-child(2){
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+#extraInfo{
+    margin-right: 50px;
+}
+#extraInfo span:nth-child(1){
+    font-size: 18px;
+    color: #666e;
+}
+#extraInfo span:nth-child(2){
+    padding: 6px;
+    text-align: center;
+    background-color: #e4e4e7;
+    text-transform: uppercase;
+}
+#price{
+    height: 70px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#price span:nth-child(1){
+    font-size: 2.5em;
+    font-weight: 600;
+}
+#price span:nth-child(2){
+    margin: 0 20px;
+    font-size: 2em;
+    text-decoration: line-through;
+}
+#price span:nth-child(3){
+    color: #388e3c;
+    font-size: 24px;
+    font-weight: 600;
+}
+#itemDescription,#itemDetails{
+    font-size: 20px;
+    margin: 50px 0;
+    padding: 20px;
+    line-height: 1.4em;
+    background-color: salmon;
+}
+.itemTextHeadings{
+    display: flex;
+    align-items: center;
+    font-size: 1.8em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    height: 70px;
+}
+#sellerInfoContainer{
+    padding: 20px;
+    background-color: red;
+}
+#sellerInfo span{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: yellow;
+    height: 40px;
+    font-size: 20px;
+
+}
+

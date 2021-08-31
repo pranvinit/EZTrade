@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import styles from '../items.module.css';
 import { ShoppingCart } from '@material-ui/icons';
 import { Payment } from '@material-ui/icons';
@@ -9,6 +10,7 @@ import { Link } from 'react-router-dom';
 
 
 export default function Item({ item }) {
+    const userProfile = useSelector((state) => state.userAccount);
 
     const discount = ((item.price - item.discountedPrice) / item.price) * 100;
     const [counter, setCounter] = useState(false);
@@ -38,13 +40,11 @@ export default function Item({ item }) {
         <div id={styles.itemEntry}>
             <Link className={styles.singleItemLink} to={`/singleItem/${item._id}`}>
                 <div id={styles.itemTitleContainer}>
-                    <span>{item.title}</span>
+                    <span>{item.title.substr(0, 50)}</span>
                 </div>
-                <div id={styles.itemMetaContainer}>
-                    <div id={styles.itemPriceContainer}>
-                        <span>&#8377;{item.price}</span>
-                        <span>&#8377;{item.discountedPrice}</span>
-                    </div>
+                <div id={styles.itemPriceContainer}>
+                    <span>&#8377;{item.discountedPrice}</span>
+                    <span>&#8377;{item.price}</span>
                     <span>{discount.toFixed(0)}% off</span>
                 </div>
                 <div id={styles.itemImageDiv} onMouseOver={() => setCounter(true)} onMouseOut={handleMouseOut}>
@@ -53,10 +53,10 @@ export default function Item({ item }) {
             <div id={styles.itemOptionsContainer}>
                 <span>{item.category}</span>
                 <div>
-                    <Fab color="primary" size="small" aria-label="edit">
+                    <Fab disabled={!userProfile.login} color="primary" size="small" aria-label="edit">
                         <ShoppingCart />
                     </Fab>
-                    <Fab color="primary" size="small" aria-label="edit">
+                    <Fab disabled={!userProfile.login} color="primary" size="small" aria-label="edit">
                         <Payment />
                     </Fab>
                 </div>

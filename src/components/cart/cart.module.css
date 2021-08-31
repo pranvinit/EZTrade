@@ -1,0 +1,41 @@
+:root{
+    --primary-font : Arial, Helvetica, sans-serif;
+    --fancy-font: 'Fira Sans', sans-serif;
+}
+*{
+    font-family: var(--primary-font);
+}
+
+#cartContainer > span {
+    display: flex;
+    height: 100px;
+    background-color: red;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.04em;
+    font-family: var(--fancy-font);
+    font-weight: 600;
+    font-size: 3em;
+}
+
+
+#cartItemContainer{
+    background-color: yellow;
+    height: 200px;
+    margin: 20px 0;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
+}
+
+#itemImage{
+    width: 15%;
+    height: 80%;
+    overflow: hidden;
+}
+#itemImage img{
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+}

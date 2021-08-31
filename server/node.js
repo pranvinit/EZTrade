@@ -12,11 +12,15 @@ const jwt = require('jsonwebtoken');
 
 //importing routes
 const addSellerHandler = require('./routes/addSeller');
+const addUserHandler = require('./routes/addUser');
 const sellerLoginHandler = require('./routes/sellerLogin');
-const authorisationHandler = require('./routes/authorisation');
+const userLoginHandler = require('./routes/userLogin');
+const sellerAuthorisationHandler = require('./routes/sellerAuthorisation');
+const userAuthorisatonHandler = require('./routes/userAuthorisaton')
 const addItemHandler = require('./routes/addItem');
-const fetchItemsHandler = require('./routes/fetchItems')
-const singleItemHandler = require('./routes/singleItemHandler')
+const fetchItemsHandler = require('./routes/fetchItems');
+const singleItemHandler = require('./routes/singleItemHandler');
+const cartHandler = require('./routes/cart');
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://pranavOne:pranavTwo@cluster0.f9ksh.mongodb.net/ezTrade?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -76,17 +80,21 @@ const upload = multer({
 app.use('/addItem', (req, res, next) => {
     upload(req, res, function (err) {
         if (err) {
-            res.status(200).json({ message: 'Invalid format' })
+            res.status(400).send();
         } else {
             next()
         }
     })
 }, addItemHandler)
 
-app.use('/authenticateSeller', verify, authorisationHandler)
+app.use('/authoriseSeller', verify, sellerAuthorisationHandler)
+app.use('/authoriseUser', verify, userAuthorisatonHandler)
 
 app.use('/addSeller', addSellerHandler)
+app.use('/addUser', addUserHandler)
 app.use('/sellerLogin', sellerLoginHandler)
+app.use('/userLogin', userLoginHandler)
 app.use('/fetchItems', fetchItemsHandler)
+app.use('/cart', cartHandler)
 
 app.listen(PORT, () => console.log(`Server running at http://127.0.0.1:${PORT}`));

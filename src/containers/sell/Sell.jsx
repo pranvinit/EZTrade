@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import styles from './sell.module.css';
 import moment from 'moment';
 //redux specific
 import { useSelector, useDispatch } from 'react-redux';
-//material ui
-import { Alert } from '@material-ui/lab';
-import { Collapse } from '@material-ui/core';
-import { Close, RestoreRounded } from '@material-ui/icons';
-import { IconButton } from '@material-ui/core';
+//importing utils
+import AlertComponent from '../../utils/AlertComponent';
 //form specific
-import { ButtonGroup } from '@material-ui/core';
-import { Button } from '@material-ui/core';
-import { AccountCircle, AddBox } from '@material-ui/icons';
-import { PhotoCamera } from '@material-ui/icons';
-import { AddCircleOutline } from '@material-ui/icons';
+import { Button, IconButton, ButtonGroup } from '@material-ui/core';
+import { AccountCircle, AddBox, PhotoCamera, AddCircleOutline, ExitToApp } from '@material-ui/icons';
 import axios from 'axios';
 
+//importing logout action creator
+import { sellerLogout } from '../sellerAccount/sellerAccountSlice';
 
 export default function Sell() {
     const sellerProfile = useSelector((state) => state.sellerAccount);
+    const history = useHistory();
+    const dispatch = useDispatch();
     const [formInput, setFormInput] = useState({});
     const [fileCount, setFileCount] = useState(0);
 
@@ -56,15 +55,29 @@ export default function Sell() {
         setFileCount(fileArray.length)
     }
 
-    const [response, setResponse] = useState('')
-    const [open, setOpen] = useState(false);
-    const handleResponse = (res) => {
-        setOpen(true);
-        console.log(res.error)
+    const [response, setResponse] = useState({})
+
+    const handleError = (error) => {
+        if (error.status == 400) {
+            setResponse(prev => ({
+                ...prev,
+                operation: 'warning',
+                message: 'Invalid file format'
+            }))
+        }
+        else if (error.status == 500) {
+            setResponse(prev => ({
+                ...prev,
+                operation: 'warning',
+                message: 'Internal server error'
+            }))
+        }
+        setOpen(true)
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        window.scrollTo(0, 0)
         const date = moment().format("MMM Do YY");
         const data = new FormData();
         data.append('date', date)
@@ -78,19 +91,23 @@ export default function Sell() {
                 return data.append(item[0], item[1])
             }
         })
-        formInput.files.forEach(file => data.append('files', file))
+        formInput.files.forEach(file => data.append('files', file));
         const addItem = async () => {
             try {
-                const response = await axios({
+                await axios({
                     method: 'POST',
                     url: '/addItem',
                     data: data
                 });
-                handleResponse(response)
+                setResponse(prev => ({
+                    ...prev,
+                    operation: 'success',
+                    message: 'Item added successfully'
+                }))
+                setOpen(true)
             }
             catch (err) {
-                console.log(err.response.status)
-                setResponse('Failed to add item to the store')
+                handleError(err.response)
             }
 
         }
@@ -99,45 +116,41 @@ export default function Sell() {
         addItem()
     }
 
+    const handleSellerLogout = () => {
+        localStorage.removeItem('sellerJwtToken');
+        sessionStorage.removeItem('sellerTempAuth');
+        dispatch(sellerLogout());
+        history.push('/')
+    }
+
+
+    const [open, setOpen] = useState(false);
+    const changeOpen = () => setOpen(false);
+
 
     if (sellerProfile.hasFetched) {
         return (
             <div id={styles.mainContainer}>
                 <div id={styles.sellerInfoContainer}>
+                    <div id={styles.sellerLogout}>
+                        <Button onClick={handleSellerLogout} variant="contained" color="secondary" startIcon={<ExitToApp />}>Logout</Button>
+                    </div>
                     <span id={styles.sellerGreeting}>Welcome back {sellerProfile.data.sellerName}</span>
                     <div id={styles.sellerOptions}>
-                        <Button className={styles.sellerProfile} variant="contained" color="primary" size="large" startIcon={<AccountCircle />}>show your info</Button>
-                        <Button className={styles.addItem} variant="contained" color="secondary" size="large" startIcon={<AddBox />}>add item</Button>
+                        <Button variant="contained" color="primary" size="large" startIcon={<AccountCircle />}>show your info</Button>
+                        <Button variant="contained" color="secondary" size="large" startIcon={<AddBox />}>add item</Button>
                     </div>
                 </div>
                 <div id={styles.sellerItems}>
-                    <span>This will be a grid with the seller items</span>
+                    <h1>This will be a grid of seller items with options</h1>
                 </div>
                 <div id={styles.formContainer}>
-                    <Collapse in={open}>
-                        <Alert
-                            severity={response.severity}
-                            action={
-                                <IconButton
-                                    aria-label="close"
-                                    color="inherit"
-                                    size="small"
-                                    onClick={() => {
-                                        setOpen(false);
-                                    }}
-                                >
-                                    <Close fontSize="inherit" />
-                                </IconButton>
-                            }
-                        >
-                            {response.message}
-                        </Alert>
-                    </Collapse>
+                    <AlertComponent message={response.message} operation={response.operation} open={open} changeOpen={changeOpen} />
                     <form action="#" id={styles.addItemForm} onSubmit={handleSubmit}>
                         <span id={styles.signUpHeading}>Fill the form to add a new item</span>
-                        <input className={styles.productTitle} type="text" name="title" onChange={handleChange} value={formInput.title || ''} placeholder="Product title" required />
+                        <input className={styles.productTitle} type="text" name="title" onChange={handleChange} value={formInput.title || ''} placeholder="Product title" maxLength="100" />
                         <textarea className={styles.productDesc} type="text" name="description" onChange={handleChange} value={formInput.description || ''} placeholder="Product description" required />
-                        <ButtonGroup size="large" color="secondary" aria-label="outlined primary button group">
+                        <ButtonGroup className={styles.productCat} size="large" color="secondary" aria-label="outlined primary button group">
                             <Button onClick={handleGenderClick} value="pantry" disabled={formInput.category === 'pantry'}>Pantry</Button>
                             <Button onClick={handleGenderClick} value="clothing" disabled={formInput.category === 'clothing'}>clothing</Button>
                             <Button onClick={handleGenderClick} value="electronics" disabled={formInput.category === 'electronics'}>Electronics</Button>
@@ -150,7 +163,7 @@ export default function Sell() {
                             <input className={styles.discountedPrice} type="number" name="discountedPrice" onChange={handleChange} value={formInput.discountedPrice || ''} placeholder="Discounted price" min="0" step="10" required />
                         </div>
                         <div>
-                            <input className={styles.fileInput} id="icon-button-file" type="file" name="images" onChange={handleFileChange} placeholder="Product images" required multiple />
+                            <input className={styles.fileInput} id="icon-button-file" type="file" name="images" onChange={handleFileChange} placeholder="Product images" multiple required />
                             <label htmlFor="icon-button-file">
                                 <IconButton color="primary" aria-label="upload picture" component="span">
                                     <PhotoCamera />

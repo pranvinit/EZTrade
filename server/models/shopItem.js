@@ -32,6 +32,10 @@ const shopItemSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    sellerShopName: {
+        type: String,
+        required: true
+    },
     sellerName: {
         type: String,
         required: true
