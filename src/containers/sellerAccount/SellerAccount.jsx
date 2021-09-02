@@ -14,7 +14,7 @@ import Login from './Login';
 
 export default function SellerAccount() {
 
-    const [loginOption, setLoginOption] = useState(false)
+    const [loginOption, setLoginOption] = useState(true)
     const [formInput, setFormInput] = useState({})
 
     const handleChange = ({ target }) => {
@@ -87,6 +87,11 @@ export default function SellerAccount() {
         setFormInput({});
     }
 
+    const handleLoginOption = () => {
+        loginOption ? setLoginOption(false) : setLoginOption(true);
+        window.scrollTo(0, 0)
+    }
+
     const [open, setOpen] = useState(false);
     const changeOpen = () => setOpen(false);
     return (
@@ -116,7 +121,7 @@ export default function SellerAccount() {
                 </form>
             </div>}
             <div id={styles.option}>
-                <Button variant="outlined" color="secondary" style={{ margin: '50px 0' }} size="large" onClick={() => loginOption ? setLoginOption(false) : setLoginOption(true)}>{loginOption ? 'sign up' : 'Already have an account? login'}</Button>
+                <Button variant="outlined" color="secondary" style={{ margin: '50px 0' }} size="large" onClick={handleLoginOption}>{loginOption ? 'sign up' : 'Already have an account? login'}</Button>
             </div>
         </div>
     )

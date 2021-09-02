@@ -14,7 +14,6 @@ import AlertComponent from '../../utils/AlertComponent';
 
 
 export default function Orders() {
-
     const userProfile = useSelector((state) => state.userAccount)
     const data = userProfile.data;
     const dispatch = useDispatch();
@@ -57,9 +56,13 @@ export default function Orders() {
     const [open, setOpen] = useState(false);
     const changeOpen = () => setOpen(false);
 
-    const [paymentMode, setPaymentMode] = useState('Cash on delivery');
-    const handleChange = ({ target }) => {
-        setPaymentMode(target.value);
+    const [paymentMode, setPaymentMode] = useState({});
+    const handleChange = (e, id) => {
+        const value = e.target.value;
+        setPaymentMode(prev => ({
+            ...prev,
+            [id]: value
+        }))
     }
 
     if (!userProfile.login) {
@@ -92,8 +95,8 @@ export default function Orders() {
                             <InputLabel id="paymentMode">Payment Mode</InputLabel>
                             <Select
                                 labelId="paymentMode"
-                                value={paymentMode}
-                                onChange={handleChange}
+                                value={paymentMode[order._id] || "Cash on delivery"}
+                                onChange={(e) => handleChange(e, order._id)}
                             >
                                 <MenuItem value={"Cash on delivery"}>Cash on delivery</MenuItem>
                                 <MenuItem value={"Net banking"}>Net banking</MenuItem>
@@ -102,7 +105,7 @@ export default function Orders() {
                         </div>
                         <div className={styles.itemInfo}>
                             <span>{order.title}</span>
-                            <span>{order.description}</span>
+                            <span>{order.description.length > 250 ? order.description.substr(0, 250) + '...' : order.description}</span>
                         </div>
                         <div id={styles.buttonContainer}>
                             <Button onClick={() => handleOrder(order)} color="primary" variant="outlined" size="large" startIcon={<Payment />}>Place order</Button>
@@ -132,9 +135,9 @@ export default function Orders() {
                                 <span>{order.paymentMode}</span>
                             </div>
                         </div>
-                        <div className={styles.itemInfo}>
+                        <div className={styles.itemInfo} id={styles.orderlistInfo}>
                             <span>{order.title}</span>
-                            <span>{order.description}</span>
+                            <span>{order.description.length > 250 ? order.description.substr(0, 250) + '...' : order.description}</span>
                         </div>
                         <div id={styles.orderInfo}>
                             <div id={styles.orderDate}>

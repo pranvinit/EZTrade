@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import styles from './sell.module.css';
 import moment from 'moment';
@@ -11,11 +11,15 @@ import { Button, IconButton, ButtonGroup } from '@material-ui/core';
 import { AccountCircle, AddBox, PhotoCamera, AddCircleOutline, ExitToApp } from '@material-ui/icons';
 import axios from 'axios';
 
+//importing presentational components
+import Items from '../../components/items/Items'
+
 //importing logout action creator
 import { sellerLogout } from '../sellerAccount/sellerAccountSlice';
 
 export default function Sell() {
     const sellerProfile = useSelector((state) => state.sellerAccount);
+    const data = sellerProfile.data
     const history = useHistory();
     const dispatch = useDispatch();
     const [formInput, setFormInput] = useState({});
@@ -84,7 +88,7 @@ export default function Sell() {
         Object.entries(formInput).map(item => {
             return data.append(item[0], item[1])
         })
-        Object.entries(sellerProfile.data).map(item => {
+        Object.entries(data).map(item => {
             if (item[0] === '_id') {
                 return data.append('sellerId', item[1])
             } else {
@@ -123,6 +127,29 @@ export default function Sell() {
         history.push('/')
     }
 
+    //handing edit and delete options
+    const [sellerItems, setSellerItems] = useState([])
+    useEffect(() => {
+        const fetchSellerPosts = async () => {
+            try {
+                const response = await axios({
+                    method: 'POST',
+                    url: '/sellerItems',
+                    data: { id: data._id }
+                });
+                setSellerItems(response.data)
+
+            } catch (err) {
+                handleError(err.response)
+            }
+        }
+        if (data._id) {
+            fetchSellerPosts()
+        }
+    }, [data])
+
+    //add item form
+    const addItemForm = useRef();
 
     const [open, setOpen] = useState(false);
     const changeOpen = () => setOpen(false);
@@ -132,25 +159,22 @@ export default function Sell() {
         return (
             <div id={styles.mainContainer}>
                 <div id={styles.sellerInfoContainer}>
-                    <div id={styles.sellerLogout}>
-                        <Button onClick={handleSellerLogout} variant="contained" color="secondary" startIcon={<ExitToApp />}>Logout</Button>
-                    </div>
-                    <span id={styles.sellerGreeting}>Welcome back {sellerProfile.data.sellerName}</span>
+                    <span id={styles.sellerGreeting}>Welcome back {data.sellerName}</span>
                     <div id={styles.sellerOptions}>
+                        <Button onClick={handleSellerLogout} variant="contained" color="secondary" startIcon={<ExitToApp />}>Logout</Button>
                         <Button variant="contained" color="primary" size="large" startIcon={<AccountCircle />}>show your info</Button>
-                        <Button variant="contained" color="secondary" size="large" startIcon={<AddBox />}>add item</Button>
+                        <Button onClick={() => window.scrollTo(0, addItemForm.current.getBoundingClientRect().top)} variant="contained" color="secondary" size="large" startIcon={<AddBox />}>add item</Button>
                     </div>
                 </div>
-                <div id={styles.sellerItems}>
-                    <h1>This will be a grid of seller items with options</h1>
-                </div>
+                {sellerItems.length !== 0 ? <span className={styles.sellerItemsHeading}>Items listed</span> : <span className={styles.sellerItemsHeading}>No items listed</span>}
+                {sellerItems.length !== 0 ? <Items items={sellerItems} seller={true} /> : <span>No items listed</span>}
                 <div id={styles.formContainer}>
                     <AlertComponent message={response.message} operation={response.operation} open={open} changeOpen={changeOpen} />
-                    <form action="#" id={styles.addItemForm} onSubmit={handleSubmit}>
+                    <form ref={addItemForm} action="#" id={styles.addItemForm} onSubmit={handleSubmit}>
                         <span id={styles.signUpHeading}>Fill the form to add a new item</span>
                         <input className={styles.productTitle} type="text" name="title" onChange={handleChange} value={formInput.title || ''} placeholder="Product title" maxLength="100" />
                         <textarea className={styles.productDesc} type="text" name="description" onChange={handleChange} value={formInput.description || ''} placeholder="Product description" required />
-                        <ButtonGroup className={styles.productCat} size="large" color="secondary" aria-label="outlined primary button group">
+                        <ButtonGroup variant="text" className={styles.productCat} size="large" color="secondary" aria-label="outlined primary button group">
                             <Button onClick={handleGenderClick} value="pantry" disabled={formInput.category === 'pantry'}>Pantry</Button>
                             <Button onClick={handleGenderClick} value="clothing" disabled={formInput.category === 'clothing'}>clothing</Button>
                             <Button onClick={handleGenderClick} value="electronics" disabled={formInput.category === 'electronics'}>Electronics</Button>

@@ -40,11 +40,27 @@ export default function Cart() {
         removeItem();
     }
 
-    const [quantity, setQuantity] = useState(1)
-    const handleQuantity = ({ currentTarget }) => {
-        const { value } = currentTarget;
-        if (value && value != 0) {
-            setQuantity(value)
+    const [quantity, setQuantity] = useState({})
+
+    console.log(quantity)
+
+    const handleQuantity = (e, id) => {
+        const value = e.currentTarget.value;
+        if (!value || value == 0) {
+            setQuantity(prev => ({
+                ...prev,
+                [id]: 1
+            }))
+        } else if (value > 100) {
+            setQuantity(prev => ({
+                ...prev,
+                [id]: 100
+            }))
+        } else {
+            setQuantity(prev => ({
+                ...prev,
+                [id]: Number(value)
+            }))
         }
     }
 
@@ -89,17 +105,17 @@ export default function Cart() {
                         </div>
                         <div id={styles.pricing}>
                             <div id={styles.price}>
-                                <span>&#8377;{item.discountedPrice * quantity}</span>
-                                <span>&#8377;{item.price * quantity}</span>
+                                <span>&#8377;{item.discountedPrice * (quantity[item._id] || 1)}</span>
+                                <span>&#8377;{item.price * (quantity[item._id] || 1)}</span>
                                 <span>{discount.toFixed(0)}% off</span>
                             </div>
                             <div>
-                                <TextField onChange={handleQuantity} id="outlined-basic" label="Quantity" variant="outlined" defaultValue={quantity} />
+                                <TextField onChange={(e) => handleQuantity(e, item._id)} id="outlined-basic" label="Quantity" variant="outlined" defaultValue={quantity[item._id] || 1} />
                             </div>
                         </div>
                         <div id={styles.itemInfo}>
                             <span>{item.title}</span>
-                            <span>{item.description}</span>
+                            <span>{item.description.length > 250 ? item.description.substr(0, 250) + '...' : item.description}</span>
                         </div>
                         <div id={styles.buttonContainer}>
                             <Button onClick={() => handlePendingOrder(item)} color="primary" variant="outlined" size="large" startIcon={<Receipt />}>Confirm order</Button>

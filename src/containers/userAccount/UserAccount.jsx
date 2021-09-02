@@ -12,7 +12,7 @@ import { Save } from '@material-ui/icons';
 import AlertComponent from '../../utils/AlertComponent';
 
 export default function UserAccount() {
-    const [loginOption, setLoginOption] = useState(false)
+    const [loginOption, setLoginOption] = useState(true)
     const [formInput, setFormInput] = useState({})
     console.log(formInput)
 
@@ -84,13 +84,17 @@ export default function UserAccount() {
         }))
     }
 
+    const handleLoginOption = () => {
+        loginOption ? setLoginOption(false) : setLoginOption(true);
+        window.scrollTo(0, 0)
+    }
     const [open, setOpen] = useState(false);
     const changeOpen = () => setOpen(false);
 
     return (
         <div id={styles.mainContainer}>
-            {!loginOption && <UserLogin />}
-            {loginOption && <div id={styles.signUpContainer}>
+            {loginOption && <UserLogin />}
+            {!loginOption && <div id={styles.signUpContainer}>
                 <AlertComponent message={response.message} operation={response.operation} open={open} changeOpen={changeOpen} />
                 <form action="#" onSubmit={handleSubmit} id={styles.signUpForm}>
                     <span id={styles.signUpHeading}>Fill the form to setup your user profile</span>
@@ -101,7 +105,7 @@ export default function UserAccount() {
                     <input className={styles.nameInput} type="text" name="name" onChange={handleChange} value={formInput.name || ''} placeholder="Name" required />
 
                     <div className={styles.generalInfo}>
-                        <ButtonGroup size="large" color="primary" aria-label="outlined primary button group">
+                        <ButtonGroup className={styles.userGender} size="large" color="primary" aria-label="outlined primary button group">
                             <Button onClick={handleGenderClick} value="male" disabled={formInput.gender === 'male'}>Male</Button>
                             <Button onClick={handleGenderClick} value="female" disabled={formInput.gender === 'female'}>Female</Button>
                             <Button onClick={handleGenderClick} value="other" disabled={formInput.gender === 'other'}>Other</Button>
@@ -117,7 +121,7 @@ export default function UserAccount() {
                 </form>
             </div>}
             <div id={styles.option}>
-                <Button variant="outlined" color="primary" style={{ margin: '50px 0' }} size="large" onClick={() => loginOption ? setLoginOption(false) : setLoginOption(true)}>{loginOption ? 'Login' : 'Don\'t have an account? sign up'}</Button>
+                <Button variant="outlined" color="primary" style={{ margin: '50px 0' }} size="large" onClick={handleLoginOption}>{loginOption ? 'Login' : 'Don\'t have an account? sign up'}</Button>
             </div>
         </div>
     )

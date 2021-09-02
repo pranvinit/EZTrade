@@ -5,6 +5,9 @@ import { Instagram, YouTube, Twitter } from '@material-ui/icons';
 export default function Footer() {
     return (
         <div id={styles.mainFooter}>
+            <div id={styles.copyInfo}>
+                <span>&copy; 2021 ezTrade - ezTrade Interactive application by Pranav Yeole</span>
+            </div>
             <div id={styles.socialsContainer}>
                 <ul id={styles.socialsUl}>
                     <a href="https://www.instagram.com/_pranv_/">
@@ -17,9 +20,6 @@ export default function Footer() {
                         <li><Twitter className={`${styles.twt} ${styles.socials}`} fontSize="medium" /></li>
                     </a>
                 </ul>
-            </div>
-            <div id={styles.copyInfo}>
-                <span>&copy; 2021 ezTrade - ezTrade Interactive application by Pranav Yeole</span>
             </div>
         </div>
     )

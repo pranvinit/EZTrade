@@ -7,20 +7,20 @@
 
 #sellerInfoContainer{
     display: flex;
-    position: relative;
+    flex-flow: column wrap;
     align-items: center;
-    justify-content: center;
-    margin: 30px 0;
+    width: 40%;
+    margin: 30px auto;
 }
 #sellerGreeting{
+    box-sizing: border-box;
     min-height: 80px;
-    width: 40%;
+    width: 100%;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
-    padding: 0 14px;
-    font-size: 2.5em;
+    font-size: 2vw;
     font-weight: bold;
     font-family: var(--fancy-font);
     border: 2px solid #4285F4;
@@ -32,22 +32,24 @@
 }
 
 #sellerOptions{
-    position: absolute;
-    right: 0;
-    min-width: 420px;
-    height: 100%;
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
-#sellerLogout{
-    position: absolute;
-    left: 0;
-    min-width: 200px;
-    height: 100%;
+
+.sellerItemsHeading{
+    width: 20%;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
+    min-height: 60px;
+    font-family: var(--fancy-font);
+    text-transform: uppercase;
+    margin: 50px auto;
+    font-size: 2vw;
+    font-weight: 600;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 
 .fileInput{
@@ -77,7 +79,7 @@
     width: 80%;
     text-align: center;
     font-family: var(--fancy-font);
-    font-size: 2.5em;
+    font-size: 2.2vw;
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -104,6 +106,8 @@
     height: 200px;
 }
 .productCat{
+    display: flex;
+    flex-wrap: wrap;
     width: 70%;
 }
 
@@ -117,7 +121,6 @@
     width: 40%;
 }
 .fileCount{
-    font-family: var(--fancy-font);
     font-size: 20px;
     font-weight: 500;
     letter-spacing: 0.015em;

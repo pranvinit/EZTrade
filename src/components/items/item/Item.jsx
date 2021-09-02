@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styles from '../items.module.css';
 
 //material ui specific
-import { ShoppingCart, Payment } from '@material-ui/icons';
+import { ShoppingCart, Payment, Edit, DeleteOutline } from '@material-ui/icons';
 import { Fab, CircularProgress } from '@material-ui/core';
 
 import axios from 'axios';
@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { fetchUserProfile } from '../../../containers/userAccount/userAccountSlice';
 
 
-export default function Item({ item }) {
+export default function Item({ item, seller }) {
     const userProfile = useSelector((state) => state.userAccount);
     const data = userProfile.data;
 
@@ -129,14 +129,22 @@ export default function Item({ item }) {
                 </div></Link>
             <div id={styles.itemOptionsContainer}>
                 <span>{item.category}</span>
-                <div>
-                    <Fab onClick={handleAddToCart} disabled={cartDisabled} color="primary" size="small" aria-label="edit">
+                {!seller && <div>
+                    <Fab onClick={handleAddToCart} disabled={cartDisabled} color="primary" size="small" aria-label="cart">
                         {cartIcon[iconIndex]}
                     </Fab>
-                    <Fab onClick={handlePendingOrder} disabled={orderDisabled} color="primary" size="small" aria-label="edit">
+                    <Fab onClick={handlePendingOrder} disabled={orderDisabled} color="primary" size="small" aria-label="order">
                         {orderIcon[iconIndex]}
                     </Fab>
-                </div>
+                </div>}
+                {seller && <div>
+                    <Fab color="secondary" size="small" aria-label="edit">
+                        <Edit />
+                    </Fab>
+                    <Fab color="secondary" size="small" aria-label="delete">
+                        <DeleteOutline />
+                    </Fab>
+                </div>}
             </div>
             <Link className={styles.singleItemLink} to={`/singleItem/${item._id}`}>
                 <div id={styles.itemReviewContainer}>

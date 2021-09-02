@@ -19,6 +19,7 @@ const sellerAuthorisationHandler = require('./routes/sellerAuthorisation');
 const userAuthorisatonHandler = require('./routes/userAuthorisaton')
 const addItemHandler = require('./routes/addItem');
 const fetchItemsHandler = require('./routes/fetchItems');
+const sellerItemsHandler = require('./routes/sellerItems');
 const singleItemHandler = require('./routes/singleItem');
 const cartHandler = require('./routes/cart');
 const searchQueryHandler = require('./routes/searchQuery');
@@ -96,6 +97,7 @@ app.use('/addUser', addUserHandler)
 app.use('/sellerLogin', sellerLoginHandler)
 app.use('/userLogin', userLoginHandler)
 app.use('/fetchItems', fetchItemsHandler)
+app.use('/sellerItems', sellerItemsHandler);
 app.use('/cart', cartHandler)
 app.use('/search', searchQueryHandler)
 

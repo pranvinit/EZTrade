@@ -11,9 +11,12 @@
     margin: 20px auto;
 }
 #pendingOrder, #orderHistory{
-    background-color: yellow;
+    background-color: #fff;
+    border-radius: 14px;
+    border: 2px solid #4285F4;
     height: 200px;
-    margin: 20px 0;
+    width: 80%;
+    margin: 20px auto;
     padding: 20px;
     display: flex;
     align-items: center;
@@ -22,7 +25,6 @@
 .itemImage{
     height: 100%;
     width: 20%;
-    background-color: red;
     overflow: hidden;
 }
 .itemImage img{
@@ -34,24 +36,23 @@
 
 
 .itemInfo{
-    background-color: coral;
+    background-color: #eeeef1;
+    border-radius: 14px;
     box-sizing: border-box;
     width: 40%;
     height: 100%;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
 .itemInfo span:nth-child(1){
-    font-size: 2.2vw;
+    font-size: 2vw;
+    line-height: 0.85em;
     font-weight: 600;
-    height: 40%;
     display: flex;
     align-items: center;
-    background-color: red;
-
 }
 .itemInfo span:nth-child(2){
     font-size: 18px;
@@ -59,9 +60,10 @@
 }
 
 .pricing{
-    background-color: cyan;
+    background-color: #eeeef1;
+    border-radius: 14px;
     height: 100%;
-    width: 15%;
+    width: 20%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -70,12 +72,11 @@
 
 .price{
     width: 100%;
-    height: 40%;
+    box-sizing: border-box;
+    padding-left: 20px;
     display: flex;
     flex-flow: column;
-    align-items: center;
     justify-content: space-evenly;
-    background-color: red;
     
 }
 .price > span{
@@ -84,12 +85,10 @@
     text-transform: uppercase;
 }
 .price > div{
-    box-sizing: border-box;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    padding-left: 20px;
 }
 .price div span:nth-child(2){
     font-size: 1.8vw;
@@ -101,7 +100,10 @@
 }
 
 #buttonContainer{
-    background-color: cornflowerblue;
+    background-color: #eeeef1;
+    border-radius: 14px;
+    box-sizing: border-box;
+    padding: 0 20px;
     height: 100%;
     width: 15%;
     display: flex;
@@ -111,13 +113,18 @@
 }
 
 /* order history section */
+#orderHistory{
+    border-color: #00e699;
+}
+#orderlistInfo{
+    width: 35%;
+}
 #paymentMode{
-    background-color: darkcyan;
-    height: 40%;
+    box-sizing: border-box;
+    padding: 0 20px;
     width: 100%;
     display: flex;
     flex-flow: column wrap;
-    align-items: center;
     justify-content: space-evenly;
     text-transform: uppercase;
 }
@@ -127,42 +134,36 @@
 }
 #paymentMode span:nth-child(2){
     font-size: 1vw;
-    margin: 0 20px;
 }
 #orderInfo{
-    background-color: springgreen;
+    background-color: #eeeef1;
+    border-radius: 14px;
     box-sizing: border-box;
-    width: 20%;
+    width: 15%;
     height: 100%;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
 }
 #orderDate{
-    background-color: red;
-    height: 30%;
     width: 100%;
-    font-size: 1.5vw;
     display: flex;
-    align-items: center;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
 }
-#orderDate span:nth-child(2){
-    margin-left: 20px;
+#orderDate span{
+    margin: 5px 0;
 }
 #userAddress{
-    height: 70%;
     width: 100%;
     display: flex;
     flex-flow: column;
     justify-content: space-evenly;
-    background-color: steelblue;
 }
 #userAddress span:nth-child(1){
-font-size: 2vw;
-font-weight: 600;
-}
-#userAddress span:nth-child(2){
-    font-size: 20px;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 10px;
 }
