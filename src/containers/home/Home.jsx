@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import styles from './home.module.css';
 import axios from 'axios';
 //material ui specific
@@ -6,12 +7,15 @@ import { CircularProgress } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
 //importing container components
-import SearchBar from '../../components/searchBar/SearchBar';
+import Searchbar from '../searchbar/Searchbar';
 import Categories from '../categories/Categories';
 
 //importing presentational components;
 import FeaturedItem from '../../components/featuredItem/FeaturedItem';
 import Items from '../../components/items/Items';
+
+//importing action creators
+import { changeQuery } from '../searchbar/searchbarSlice';
 
 
 export default function Home() {
@@ -20,9 +24,11 @@ export default function Home() {
 
     const [lazyCount, setLazyCount] = useState(0);
     const [maxItems, setMaxItems] = useState(false);
+    const dispatch = useDispatch();
 
     const handleScroll = () => {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 30) {
+            console.log('now')
             setLazyCount((prev) => prev + 3)
         }
     }
@@ -33,6 +39,10 @@ export default function Home() {
             window.removeEventListener('scroll', handleScroll)
         }
     })
+
+    useEffect(() => {
+        dispatch(changeQuery(null))
+    }, [])
 
     useEffect(() => {
         if (!maxItems) {
@@ -55,10 +65,10 @@ export default function Home() {
 
     return (
         <div id={styles.homeContainer}>
-            <SearchBar />
+            <Searchbar />
             <FeaturedItem />
             <Categories />
-            {items.length ? <Items items={items} /> : <div className={styles.spinnerContainer}><CircularProgress /></div>}
+            <Items items={items} />
             <div className={styles.spinnerContainer}>
                 {loading && <CircularProgress />}
             </div>

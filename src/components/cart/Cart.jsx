@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import { Delete, Receipt } from '@material-ui/icons';
+import { Alert } from '@material-ui/lab';
 import styles from './cart.module.css';
 import axios from 'axios';
 
@@ -19,10 +21,12 @@ export default function Cart() {
         dispatch(fetchUserProfile(localStorage.getItem('userJwtToken')));
     }, [])
 
+    const history = useHistory();
+
     const handleRemoveItem = (id) => {
         const removeItem = async () => {
             try {
-                const response = await axios({
+                await axios({
                     method: 'POST',
                     url: '/cart',
                     data: { user: data._id, item: id, operation: 'remove' }
@@ -34,6 +38,32 @@ export default function Cart() {
             }
         }
         removeItem();
+    }
+
+    const [quantity, setQuantity] = useState(1)
+    const handleQuantity = ({ currentTarget }) => {
+        const { value } = currentTarget;
+        if (value && value != 0) {
+            setQuantity(value)
+        }
+    }
+
+    const handlePendingOrder = (item) => {
+        const pendingOrder = async () => {
+            try {
+                await axios({
+                    method: 'POST',
+                    url: '/cart',
+                    data: { user: data._id, item: { ...item, quantity: quantity }, operation: 'addToPending' }
+                });
+                dispatch(fetchUserProfile(localStorage.getItem('userJwtToken')));
+                history.push('/orders')
+
+            } catch (err) {
+                setOpen(true);
+            }
+        }
+        pendingOrder();
     }
 
     const [open, setOpen] = useState(false);
@@ -48,7 +78,7 @@ export default function Cart() {
     }
     return (
         <div id={styles.cartContainer}>
-            <span>Items in cart</span>
+            {data.cartItems.length ? <Alert id={styles.alert} severity="info">Cart items</Alert> : <Alert id={styles.alert} severity="info">No items in cart</Alert>}
             <AlertComponent message='Something went wrong' operation='warning' open={open} changeOpen={changeOpen} />
             {data.cartItems.map((item, index) => {
                 const discount = ((item.price - item.discountedPrice) / item.price) * 100;
@@ -57,21 +87,23 @@ export default function Cart() {
                         <div id={styles.itemImage}>
                             <img src={item.paths[0]} alt={item.title} />
                         </div>
-                        <div id={styles.itemTitle}>
+                        <div id={styles.pricing}>
+                            <div id={styles.price}>
+                                <span>&#8377;{item.discountedPrice * quantity}</span>
+                                <span>&#8377;{item.price * quantity}</span>
+                                <span>{discount.toFixed(0)}% off</span>
+                            </div>
+                            <div>
+                                <TextField onChange={handleQuantity} id="outlined-basic" label="Quantity" variant="outlined" defaultValue={quantity} />
+                            </div>
+                        </div>
+                        <div id={styles.itemInfo}>
                             <span>{item.title}</span>
-                        </div>
-
-                        <div id={styles.price}>
-                            <span>&#8377;{item.discountedPrice}</span>
-                            <span>&#8377;{item.price}</span>
-                            <span>{discount.toFixed(0)}% off</span>
-                        </div>
-                        <div id={styles.itemDescription}>
                             <span>{item.description}</span>
                         </div>
                         <div id={styles.buttonContainer}>
-                            <Button onClick={() => handleRemoveItem(item._id)} color="secondary" variant="contained" startIcon={<Delete />}>Remove item</Button>
-                            <Button color="primary" variant="contained" startIcon={<Receipt />}>Place order</Button>
+                            <Button onClick={() => handlePendingOrder(item)} color="primary" variant="outlined" size="large" startIcon={<Receipt />}>Confirm order</Button>
+                            <Button onClick={() => handleRemoveItem(item._id)} color="secondary" variant="outlined" size="large" startIcon={<Delete />}>Remove item</Button>
                         </div>
                     </div>
                 )

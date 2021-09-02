@@ -91,12 +91,12 @@
 }
 
 .productTitle:focus, .price:focus, .discountedPrice:focus{
-    border: 4px solid #DB4437;
+    border: 3px solid #F4B400;
     border-radius: 40px;
 }
 
 .productDesc:focus, .productDetails:focus{
-    border: 4px solid #DB4437;
+    border: 3px solid #F4B400;
     border-radius: 12px;
 }
 

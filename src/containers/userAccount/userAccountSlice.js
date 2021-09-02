@@ -21,7 +21,9 @@ const userAuthetication = createSlice({
         data: {
             name: '',
             userAddress: '',
-            cartItems: []
+            cartItems: [],
+            pendingOrders: [],
+            orders: [],
         },
         hasFetched: false
     },

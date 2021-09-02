@@ -15,7 +15,8 @@ import SingleItem from './containers/singleItem/SingleItem';
 import Navbar from './components/navbar/Navbar';
 import Footer from './components/footer/Footer';
 import Cart from './components/cart/Cart';
-import Orders from './components/orderPage/Oders';
+import Orders from './components/orderPage/Orders';
+import Search from './components/search/Search';
 import {
   BrowserRouter as Router,
   Switch,
@@ -76,6 +77,9 @@ function App() {
             </Route>
             <Route exact path='/orders'>
               <Orders />
+            </Route>
+            <Route exact path='/search'>
+              <Search />
             </Route>
           </Switch>
         </div>

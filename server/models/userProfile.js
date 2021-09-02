@@ -35,6 +35,12 @@ const userProfileSchema = new mongoose.Schema({
     },
     cartItems: {
         type: Array
+    },
+    pendingOrders: {
+        type: Array
+    },
+    orders: {
+        type: Array
     }
 })
 const userProfileModel = mongoose.model('userProfile', userProfileSchema)

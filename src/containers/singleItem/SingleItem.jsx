@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router';
+import { useLocation, useHistory } from 'react-router';
 import styles from './singleItem.module.css';
 import axios from 'axios';
 //material ui specific
@@ -25,6 +25,8 @@ export default function SingleItem() {
     const discount = ((item.price - item.discountedPrice) / item.price) * 100;
     const userProfile = useSelector((state) => state.userAccount);
     const data = userProfile.data;
+
+    const history = useHistory();
 
     const getItem = async () => {
         try {
@@ -65,6 +67,7 @@ export default function SingleItem() {
                     message: 'Item added to cart',
                     operation: 'success'
                 }))
+                setOpen(true);
                 dispatch(fetchUserProfile(localStorage.getItem('userJwtToken')));
 
             } catch (err) {
@@ -76,17 +79,63 @@ export default function SingleItem() {
             }
         }
         addToCart();
-        setOpen(true);
     }
+
+    const handlePendingOrder = () => {
+        const pendingOrder = async () => {
+            try {
+                await axios({
+                    method: 'POST',
+                    url: '/cart',
+                    data: { user: data._id, item: { ...item, quantity: 1 }, operation: 'addToPending' }
+                });
+                dispatch(fetchUserProfile(localStorage.getItem('userJwtToken')));
+                history.push('/orders')
+
+            } catch (err) {
+                setOpen(true);
+            }
+        }
+        pendingOrder();
+    }
+
 
     const [open, setOpen] = useState(false);
     const changeOpen = () => setOpen(false);
 
     //if item already exist in cart
-    const [alreadyInCart, setAlreadyInCart] = useState(false);
+    const [cartText, setCartText] = useState('Add to cart')
+    const [cartDisabled, setCartDisabled] = useState(false);
+
+    //if item is already in pending orders
+    const [orderDisabled, setOrderDisabled] = useState(false)
+    const [orderText, setOrderText] = useState('Buy now');
+
     useEffect(() => {
-        data.cartItems.map(doc => doc._id === item._id ? setAlreadyInCart(true) : setAlreadyInCart(false))
-    }, [data])
+        if (!userProfile.login) {
+            setCartDisabled(true);
+            setOrderDisabled(true);
+        }
+        if (userProfile.login) {
+            data.cartItems.map(doc => {
+                if (doc._id.includes(item._id)) {
+                    setCartDisabled(true)
+                    setCartText('Added to cart')
+                }
+            })
+            data.pendingOrders.map(doc => {
+                if (doc._id.includes(item._id)) {
+
+                    setCartDisabled(true)
+                    setCartText('Order pending')
+
+                    setOrderDisabled(true)
+                    setOrderText('Order pending')
+                }
+            })
+        }
+
+    }, [data, item])
 
     if (error) {
         return (
@@ -117,11 +166,11 @@ export default function SingleItem() {
                                 })
                             }
                         </div>
-                        <AlertComponent message={response.message} operation={response.operation} open={open} changeOpen={changeOpen} />
                         <div id={styles.userActions}>
+                            <AlertComponent message={response.message} operation={response.operation} open={open} changeOpen={changeOpen} />
                             <div id={styles.userOptions}>
-                                <Button onClick={handleAddToCart} variant="outlined" color="primary" size="large" disabled={userProfile.login && alreadyInCart} startIcon={<ShoppingCart />}>{alreadyInCart ? 'Added to cart' : 'Add to cart'}</Button>
-                                <Button variant="outlined" color="primary" size="large" disabled={!userProfile.login} startIcon={<Receipt />}>Buy now</Button>
+                                <Button onClick={handleAddToCart} variant="outlined" color="primary" size="large" disabled={cartDisabled} startIcon={<ShoppingCart />}>{!userProfile.login ? 'Add to cart' : cartText}</Button>
+                                <Button onClick={handlePendingOrder} variant="outlined" color="primary" size="large" disabled={orderDisabled} startIcon={<Receipt />}>{!userProfile.login ? 'Buy now' : orderText}</Button>
                             </div>
                             {userProfile.login && <div id={styles.userAddress}>
                                 <span>Delivery address</span>
@@ -130,34 +179,39 @@ export default function SingleItem() {
                         </div>
                     </div>
                     <div id={styles.itemInfo}>
-                        <div id={styles.itemTitle}>
-                            <span>{item.title}</span>
-                        </div>
-                        <div id={styles.itemMeta}>
-                            <div className={styles.itemMetaClass} id={styles.itemReviews}>
-                                <span>4.5</span>
-                                <span>22 reviews</span>
+                        <div id={styles.metaContainer}>
+                            <div id={styles.itemTitle}>
+                                <span>{item.title}</span>
                             </div>
-                            <div className={styles.itemMetaClass} id={styles.extraInfo}>
-                                <span>{item.date}</span>
-                                <span>{item.category}</span>
+                            <div id={styles.itemMeta}>
+                                <div className={styles.itemMetaClass} id={styles.itemReviews}>
+                                    <span>4.5</span>
+                                    <span>22 reviews</span>
+                                </div>
+                                <div className={styles.itemMetaClass} id={styles.extraInfo}>
+                                    <span>{item.date}</span>
+                                    <span>{item.category}</span>
+                                </div>
                             </div>
-                        </div>
 
-                        <div id={styles.price}>
-                            <span>&#8377;{item.discountedPrice}</span>
-                            <span>&#8377;{item.price}</span>
-                            <span>{discount.toFixed(0)}% off</span>
+                            <div id={styles.price}>
+                                <span>&#8377;{item.discountedPrice}</span>
+                                <span>&#8377;{item.price}</span>
+                                <span>{discount.toFixed(0)}% off</span>
+                            </div>
                         </div>
 
                         <div id={styles.itemDescription}>
                             <span className={styles.itemTextHeadings}>Item description</span>
-                            <span>{item.description}</span>
-
+                            <div>
+                                <span>{item.description}</span>
+                            </div>
                         </div>
                         <div id={styles.itemDetails}>
                             <span className={styles.itemTextHeadings}>Item details</span>
-                            <span>{item.details}</span>
+                            <div>
+                                <span>{item.details}</span>
+                            </div>
                         </div>
 
                         <div id={styles.sellerInfoContainer}>

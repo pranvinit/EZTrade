@@ -19,8 +19,9 @@ const sellerAuthorisationHandler = require('./routes/sellerAuthorisation');
 const userAuthorisatonHandler = require('./routes/userAuthorisaton')
 const addItemHandler = require('./routes/addItem');
 const fetchItemsHandler = require('./routes/fetchItems');
-const singleItemHandler = require('./routes/singleItemHandler');
+const singleItemHandler = require('./routes/singleItem');
 const cartHandler = require('./routes/cart');
+const searchQueryHandler = require('./routes/searchQuery');
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://pranavOne:pranavTwo@cluster0.f9ksh.mongodb.net/ezTrade?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -96,5 +97,6 @@ app.use('/sellerLogin', sellerLoginHandler)
 app.use('/userLogin', userLoginHandler)
 app.use('/fetchItems', fetchItemsHandler)
 app.use('/cart', cartHandler)
+app.use('/search', searchQueryHandler)
 
 app.listen(PORT, () => console.log(`Server running at http://127.0.0.1:${PORT}`));

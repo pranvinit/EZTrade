@@ -77,9 +77,23 @@
 
 .navLi{
     text-decoration: none;
-    color: white;
     font-weight: 500;
-    padding: 0 6px;
+}
+.navLi li{
+    color: white;
+}
+.loginLabel{
+    box-sizing: border-box;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+    margin-left: 10px;
+    border-bottom: 2px solid transparent;
+    transition: all linear 100ms;
+}
+.loginLabel:hover{
+    border-color:#4285F4;
 }
 .navAddress{
     height: 80%;
@@ -87,12 +101,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
 }
 .navAddress span{
     margin-left: 10px;
-    font-size: 18px;
     font-weight: 600;
+    color: white;
 }
 
 .selected{

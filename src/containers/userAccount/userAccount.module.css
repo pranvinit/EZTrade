@@ -64,11 +64,11 @@
     transition: all 100ms linear;
 }
 .smallInput:focus, .nameInput:focus{
-        border: 4px solid #4285F4;
+        border: 3px solid #4285F4;
         border-radius: 30px;
 }
 .addressInput:focus{
-    border: 4px solid #4285F4;
+    border: 3px solid #4285F4;
     border-radius: 14px;
 }
 .addressInput{
@@ -102,6 +102,6 @@
     transition: all 100ms linear;
 }
 .loginUsername:focus, .loginPassword:focus{
-    border: 4px solid #4285F4;
+    border: 3px solid #4285F4;
     border-radius: 34px;
 }

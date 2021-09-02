@@ -6,16 +6,9 @@
     font-family: var(--primary-font);
 }
 
-#cartContainer > span {
-    display: flex;
-    height: 100px;
-    background-color: red;
-    align-items: center;
-    justify-content: center;
-    letter-spacing: 0.04em;
-    font-family: var(--fancy-font);
-    font-weight: 600;
-    font-size: 3em;
+#alert{
+    width: 60%;
+    margin: 20px auto;
 }
 
 
@@ -23,14 +16,16 @@
     background-color: yellow;
     height: 200px;
     margin: 20px 0;
+    padding: 20px;
     display: flex;
-    flex-flow: column wrap;
-    justify-content: space-evenly;
+    align-items: center;
+    justify-content: space-between;
 }
 
 #itemImage{
-    width: 15%;
-    height: 80%;
+    height: 100%;
+    width: 20%;
+    background-color: red;
     overflow: hidden;
 }
 #itemImage img{
@@ -38,4 +33,72 @@
     object-position: center;
     width: 100%;
     height: 100%;
+}
+#itemInfo{
+    background-color: coral;
+    box-sizing: border-box;
+    width: 40%;
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+#itemInfo span:nth-child(1){
+    font-size: 2.2vw;
+    font-weight: 600;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    background-color: red;
+
+}
+#itemInfo span:nth-child(2){
+    font-size: 18px;
+    overflow: hidden;
+}
+#pricing{
+    background-color: cyan;
+    height: 100%;
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#price{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    
+}
+#price span:nth-child(1){
+    font-size: 2vw;
+    font-weight: 600;
+}
+#price span:nth-child(2){
+    font-size: 1.5vw;
+    margin: 0 20px;
+    text-decoration: line-through;
+}
+#price span:nth-child(3){
+    color: #388e3c;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+
+#buttonContainer{
+    background-color: cornflowerblue;
+    height: 100%;
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-evenly;
 }

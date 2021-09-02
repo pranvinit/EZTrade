@@ -82,7 +82,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 10px 0;
+    margin-top: 10px;
 }
 #itemOptionsContainer > span{
     font-size: 14px;
@@ -120,4 +120,8 @@
     height: 70%;
     color: white;
     background-color: #388e3c;
+}
+#itemReviewContainer span:nth-child(2){
+    font-weight: 600;
+    text-transform: uppercase;
 }

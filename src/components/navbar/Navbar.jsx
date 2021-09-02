@@ -40,12 +40,12 @@ export default function Navbar() {
             <div id={styles.navListContainer}>
                 <ul id={styles.navList}>
                     {userProfile.login ?
-                        <li className={`${styles.navLi} ${styles.navAddress}`}><LocationOn /> <span>{data.userAddress.substr(0, 40)}</span></li> : <li className={styles.navAddress}><span>Login to make a purchase</span></li>
+                        <li className={`${styles.navLi} ${styles.navAddress}`}><LocationOn style={{ color: 'white' }} /> <span>{data.userAddress.substr(0, 40)}</span></li> : <li className={styles.navAddress}><Link className={styles.loginLabel} to='/userAccount'>Login to make a purchase</Link></li>
                     }
-                    {!userProfile.login ? < Button variant="outlined" color="primary"><NavLink className={styles.navLi} activeClassName={styles.selected} to='/userAccount'><li>Login</li></NavLink></Button> : < Button variant="outlined" color="primary" onClick={handleLogoutClick}><li className={styles.navLi} >Logout</li></Button>}
-                    <Button variant="outlined" color="primary"><NavLink className={styles.navLi} activeClassName={styles.selected} to='/sell'><li>Sell</li></NavLink></Button>
-                    <Button variant="outlined" color="primary" startIcon={<ShoppingCart style={{ color: 'white' }} />}><NavLink className={styles.navLi} activeClassName={styles.selected} to='/cart'><li>Cart</li></NavLink></Button>
-                    <Button variant="outlined" color="primary" startIcon={<Receipt style={{ color: 'white' }} />}><NavLink className={styles.navLi} activeClassName={styles.selected} to='/orders'><li>Orders</li></NavLink></Button>
+                    {!userProfile.login ? <NavLink className={styles.navLi} activeClassName={styles.selected} to='/userAccount'> < Button variant="outlined" color="primary"><li>Login</li></Button></NavLink> : < Button className={styles.navLi} variant="outlined" color="primary" onClick={handleLogoutClick}><li>Logout</li></Button>}
+                    <NavLink className={styles.navLi} activeClassName={styles.selected} to='/sell'><Button variant="outlined" color="primary"><li>Sell</li></Button></NavLink>
+                    <NavLink className={styles.navLi} activeClassName={styles.selected} to='/cart'><Button variant="outlined" color="primary" startIcon={<ShoppingCart style={{ color: 'white' }} />}><li>Cart</li></Button></NavLink>
+                    <NavLink className={styles.navLi} activeClassName={styles.selected} to='/orders'><Button variant="outlined" color="primary" startIcon={<Receipt style={{ color: 'white' }} />}><li>Orders</li></Button></NavLink>
                 </ul>
             </div>
         </div >

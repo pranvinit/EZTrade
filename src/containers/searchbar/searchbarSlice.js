@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const searchBarReducer = createSlice({
+const searchbarReducer = createSlice({
     name: 'searchQuery',
     initialState: '',
     reducers: {
@@ -8,5 +8,5 @@ const searchBarReducer = createSlice({
     }
 })
 
-export const { changeQuery } = searchBarReducer.actions;
-export default searchBarReducer.reducer;
+export const { changeQuery } = searchbarReducer.actions;
+export default searchbarReducer.reducer;

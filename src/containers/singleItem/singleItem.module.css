@@ -26,8 +26,10 @@
 }
 
 #itemInfo{
-    background-color: pink;
     width: 50%;
+    background-color: #eeeef1;
+    margin: 50px 0;
+    padding: 20px;
 }
 
 #extImgDiv{
@@ -74,8 +76,11 @@
     height: 100%;
 }
 #userActions{
-    background-color: yellow;   
     height: 20%;
+    padding: 20px;
+    background-color: #fff;
+    border: 2px solid #4285F4;
+    border-radius: 8px;   
     display: flex;
     flex-flow: column wrap;
     align-items: center;
@@ -88,37 +93,41 @@
     justify-content: space-evenly;
 }
 #userAddress{
-    background-color: violet;
     box-sizing: border-box;
     width: 100%;
     height: 40%;
+    background-color: #eeeef1;
+    border-radius: 14px;
     padding: 0 20px;
     display: flex;
     flex-flow: column wrap;
     justify-content: space-evenly;
 }
 #userAddress span:nth-child(1){
-    font-size: 24px;
+    font-size: 1.5vw;
     font-weight: 600;
     text-transform: uppercase;
 }
 #userAddress span:nth-child(2){
     font-size: 18px;
 }
+#metaContainer{
+    padding: 20px;
+    background-color: #fff;
+    border: 2px solid #4285F4;
+    border-radius: 8px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
+}
 
 #itemTitle{
-    background-color: red;
     display: flex;
     align-items: center;
-    margin-top: 50px;
-    height: 70px;
+    font-size: 2.2vw;
 }
-#itemTitle span{
-    font-size: 2em;
-    font-weight: 500;
-}
+
 #itemMeta{
-    background-color: yellow;
     height: 50px;
     display: flex;
     align-items: center;
@@ -134,17 +143,18 @@
 }
 #itemReviews span:nth-child(1){
     width: 30%;
+    min-width: 50px;
     height: 60%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 1.2vw;
     font-weight: 600;
     color: white;
     background-color: #388e3c;
 }
 #itemReviews span:nth-child(2){
-    font-size: 20px;
+    font-size: 1.2vw;
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -169,30 +179,37 @@
     flex-wrap: wrap;
 }
 #price span:nth-child(1){
-    font-size: 2.5em;
+    font-size: 2.5vw;
     font-weight: 600;
 }
 #price span:nth-child(2){
     margin: 0 20px;
-    font-size: 2em;
+    font-size: 1.8vw;
     text-decoration: line-through;
 }
 #price span:nth-child(3){
     color: #388e3c;
-    font-size: 24px;
+    font-size: 1.5vw;
     font-weight: 600;
 }
 #itemDescription,#itemDetails{
     font-size: 20px;
     margin: 50px 0;
     padding: 20px;
-    line-height: 1.4em;
-    background-color: salmon;
+    background-color: #fff;
+    border: 2px solid #4285F4;
+    border-radius: 8px;
+}
+#itemDescription div,#itemDetails div{
+    box-sizing: border-box;
+    background-color: #eeeef1;
+    border-radius: 14px;
+    padding: 20px;
 }
 .itemTextHeadings{
     display: flex;
     align-items: center;
-    font-size: 1.8em;
+    font-size: 2.2vw;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.03em;
@@ -200,13 +217,20 @@
 }
 #sellerInfoContainer{
     padding: 20px;
-    background-color: red;
+    background-color: #fff;
+    border: 2px solid #4285F4;
+    border: 2px solid #4285F4;
+    border-radius: 8px;
+}
+#sellerInfo{
+    box-sizing: border-box;
+    background-color: #eeeef1;
+    border-radius: 14px;
+    padding: 20px;
 }
 #sellerInfo span{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: yellow;
+    align-items: center;
     height: 40px;
     font-size: 20px;
 

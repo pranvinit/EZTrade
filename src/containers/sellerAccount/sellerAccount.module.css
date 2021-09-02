@@ -55,7 +55,7 @@ input, textarea{
 }
 
 .shopNameInput:focus, .smallInput:focus, .emailInput:focus{
-    border: 4px solid #F4B400;
+    border: 3px solid #F4B400;
     border-radius: 30px;
 }
 
@@ -83,7 +83,7 @@ input, textarea{
     height: 25%;
 }
 .addressInput:focus{
-    border: 4px solid #F4B400;
+    border: 3px solid #F4B400;
     border-radius: 14px;
 }
 
@@ -116,6 +116,6 @@ input, textarea{
 }
 
 .loginUsername:focus, .loginPassword:focus{
-    border: 4px solid #F4B400;
+    border: 3px solid #F4B400;
     border-radius: 34px;
 }
