@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router';
 import styles from './singleItem.module.css';
 import axios from 'axios';
+//importing comments and ratings
+import Comments from '../../components/comments/Comments';
+import Ratings from '../../components/ratings/Rating';
 //material ui specific
 import { Button } from '@material-ui/core';
 import { CircularProgress } from '@material-ui/core';
@@ -30,11 +33,7 @@ export default function SingleItem() {
 
     const getItem = async () => {
         try {
-            const response = await axios({
-                method: 'POST',
-                url: `/item/${itemId}`,
-                data: { id: itemId }
-            });
+            const response = await axios.get(`/item/${itemId}`);
             setItem(response.data)
             setLoading(false);
         } catch (err) {
@@ -44,7 +43,6 @@ export default function SingleItem() {
 
     useEffect(() => {
         getItem()
-        console.log(userProfile)
     }, [itemId])
 
     const [extendedImgIndex, setExtendedImgIndex] = useState(0);
@@ -137,6 +135,28 @@ export default function SingleItem() {
 
     }, [data, item])
 
+    const [rating, setRating] = useState(0);
+    const ratingContainer = useRef();
+
+    useEffect(() => {
+        if (item.ratings) {
+            const totalRatings = Array.from(item.ratings.map(doc => doc.rating)).reduce((a, b) => a + b, 0)
+            const avgRatings = (totalRatings / item.ratings.length).toFixed(1)
+            setRating(avgRatings)
+        }
+        if (!loading) {
+            if (rating > 0 && rating < 2) {
+                ratingContainer.current.style.backgroundColor = '#ff6161'
+            }
+            else if (rating >= 2 && rating <= 3.5) {
+                ratingContainer.current.style.backgroundColor = '#ff9f00'
+            }
+            else if (rating > 2) {
+                ratingContainer.current.style.backgroundColor = '#388e3c'
+            }
+        }
+    }, [item, rating])
+
     if (error) {
         return (
             <div id={styles.errorId}>
@@ -185,8 +205,8 @@ export default function SingleItem() {
                             </div>
                             <div id={styles.itemMeta}>
                                 <div className={styles.itemMetaClass} id={styles.itemReviews}>
-                                    <span>4.5</span>
-                                    <span>22 reviews</span>
+                                    {item.ratings.length !== 0 ? <span ref={ratingContainer} id={styles.rateCount}>{rating}</span> : <span className={styles.noReview}>No ratings</span>}
+                                    <span>{item.comments.length} reviews</span>
                                 </div>
                                 <div className={styles.itemMetaClass} id={styles.extraInfo}>
                                     <span>{item.date}</span>
@@ -225,12 +245,10 @@ export default function SingleItem() {
                         </div>
                     </div>
                 </div>
-                <div style={{ backgroundColor: 'violet' }}>
-                    <h1>This is for a test</h1>
-                    <h1>This is for a test</h1>
-                    <h1>This is for a test</h1>
-                    <h1>This is for a test</h1>
-                    <h1>This is for a test</h1>
+                <div className={styles.reviewsContainer}>
+                    {userProfile.login ? <span>Comment and Ratings</span> : <span>Login to Rate or Comment</span>}
+                    {userProfile.login && <Ratings item={item} reload={getItem} />}
+                    <Comments item={item} reload={getItem} />
                 </div>
             </div>
         )

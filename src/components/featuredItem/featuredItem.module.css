@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+:root{
+    --primary-font : Arial, Helvetica, sans-serif;
+    --fancy-font: 'Fira Sans', sans-serif;
+}
+*{
+    font-family: var(--primary-font);
+}
+
+#featuredItemsContainer{
+    background-color: #ffdd83;
+    box-sizing: border-box;
+    padding: 30px 20px;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#featuredImgDiv{
+    width: 25vw;
+    height: 100%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    overflow: hidden;
+}
+#featuredImgDiv img{
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+}
+#featuredItemInfo{
+    box-sizing: border-box;
+    padding: 20px;
+    height: 100%;
+    width: 40vw;
+    background-color: #a2ff99;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 14px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
+}
+#featuredItemInfo span:nth-child(1){
+    font-size: 2vw;
+    font-family: var(--fancy-font);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+#featuredItemInfo span:nth-child(2){
+    font-size: 1.8vw;
+    line-height: 1.2em;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+#featuredItemInfo span:nth-child(3){
+    font-size: 20px;
+}
+#featuredItemPrice{
+    width: 20vw;
+    height: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: #faf9f9;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 14px;
+
+}
+#featuredItemPrice > span:nth-child(1){
+    font-size: 2.2vw;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+#featuredItemPrice > span:nth-child(2){
+    color: #388e3c;
+    margin: 15px 0;
+    font-size: 2.5vw;
+    font-weight: 600;
+}
+#featuredItemPrice > div span:nth-child(1){
+    font-size: 2.5vw;
+    font-weight: 600;
+    margin-right: 20px;
+}
+#featuredItemPrice > div span:nth-child(2){
+    font-size: 2vw;
+    text-decoration: line-through;
+}

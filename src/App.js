@@ -17,6 +17,7 @@ import Footer from './components/footer/Footer';
 import Cart from './components/cart/Cart';
 import Orders from './components/orderPage/Orders';
 import Search from './components/search/Search';
+import Category from './containers/categories/category/Category';
 import {
   BrowserRouter as Router,
   Switch,
@@ -28,9 +29,6 @@ function App() {
   const dispatch = useDispatch()
   const sellerProfile = useSelector((state) => state.sellerAccount);
   const userProfile = useSelector((state) => state.userAccount)
-
-  console.log(userProfile)
-  console.log(sellerProfile)
 
   const PrivateRoute = ({ children, ...rest }) => {
     return (
@@ -62,6 +60,9 @@ function App() {
             </Route>
             <Route exact path='/singleItem/:id'>
               <SingleItem />
+            </Route>
+            <Route exact path='/category/:category'>
+              <Category />
             </Route>
             <Route exact path='/userAccount'>
               <UserAccount />

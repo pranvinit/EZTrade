@@ -4,10 +4,6 @@ const shopItemSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    date: {
-        type: String,
-        required: true
-    },
     description: {
         type: String,
         required: true
@@ -25,6 +21,10 @@ const shopItemSchema = new mongoose.Schema({
         required: true
     },
     details: {
+        type: String,
+        required: true
+    },
+    date: {
         type: String,
         required: true
     },
@@ -59,6 +59,12 @@ const shopItemSchema = new mongoose.Schema({
     paths: {
         type: Array,
         required: true
+    },
+    comments: {
+        type: Array
+    },
+    ratings: {
+        type: Array
     }
 })
 

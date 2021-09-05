@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #ade8f4;
 }
 
 #signUpContainer{
@@ -26,8 +27,8 @@
     justify-content: space-evenly;
     width: 100%;
     height: 100%;
-    background-color: #90e0ef;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    background-color: #ffdd83;
 }
 
 #signUpHeading{
@@ -42,7 +43,7 @@
 input, textarea{
     outline: none;
     resize: none;
-    border: none;
+    border: 2px solid black;
 }
 
 .shopNameInput, .emailInput, .addressInput{
@@ -91,9 +92,9 @@ input, textarea{
 #loginContainer{
     margin: 50px auto;
     margin-bottom: 0;
-    width: 30%;
-    height: 70vh;
-    min-width: 450px;
+    width: 25%;
+    height: 60vh;
+    min-width: 350px;
     min-height: 400px;
 }
 
@@ -107,7 +108,7 @@ input, textarea{
 }
 
 .loginUsername, .loginPassword{
-    width: 50%;
+    width: 60%;
     height: 40px;
     font-size: 18px;
     padding: 8px 14px;

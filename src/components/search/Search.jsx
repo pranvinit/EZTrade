@@ -12,12 +12,14 @@ import AlertComponent from '../../utils/AlertComponent';
 
 //material ui specific
 import { CircularProgress } from '@material-ui/core';
+import { KeyboardBackspace } from '@material-ui/icons';
 
 export default function Search() {
     const searchQuery = useSelector(state => state.searchQuery);
     const [loading, setLoading] = useState(true)
-
     const [response, setResponse] = useState({});
+
+    const history = useHistory();
 
     useEffect(() => {
         if (searchQuery) {
@@ -62,6 +64,7 @@ export default function Search() {
         <div searchItemContainer>
             <AlertComponent message='Something went wrong' operation='warning' open={open} changeOpen={changeOpen} />
             <div id={styles.queryInfo}>
+                <KeyboardBackspace className={styles.back} onClick={() => history.push('/')} style={{ fontSize: 30 }} />
                 <span id={styles.resultCount}>{response.length} results for {searchQuery}</span>
             </div>
             {response.length ? <Items items={response} /> : <span id={styles.noResults}>Sorry, we couldn't find any results for {searchQuery}. Please try a different query instead.</span>}

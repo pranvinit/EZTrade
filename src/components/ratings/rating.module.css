@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+:root{
+    --primary-font : Arial, Helvetica, sans-serif;
+    --fancy-font: 'Fira Sans', sans-serif;
+}
+
+#ratingContainer{
+    background-color: #eeeef1;
+    padding-top: 30px;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#ratingInfo{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#rated{
+    font-family: var(--fancy-font);
+    font-size: 24px;
+    font-weight: 600;
+    margin-right: 20px;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './userAccount.module.css';
 
@@ -14,7 +14,6 @@ import AlertComponent from '../../utils/AlertComponent';
 export default function UserAccount() {
     const [loginOption, setLoginOption] = useState(true)
     const [formInput, setFormInput] = useState({})
-    console.log(formInput)
 
     const [response, setResponse] = useState({})
     const handleResponse = (res) => {
@@ -121,7 +120,7 @@ export default function UserAccount() {
                 </form>
             </div>}
             <div id={styles.option}>
-                <Button variant="outlined" color="primary" style={{ margin: '50px 0' }} size="large" onClick={handleLoginOption}>{loginOption ? 'Login' : 'Don\'t have an account? sign up'}</Button>
+                <Button variant="outlined" color="primary" style={{ marginTop: 50, marginBottom: 30 }} size="large" onClick={handleLoginOption}>{loginOption ? 'Login' : 'Don\'t have an account? sign up'}</Button>
             </div>
         </div>
     )

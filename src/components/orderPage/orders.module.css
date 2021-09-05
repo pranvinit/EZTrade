@@ -10,6 +10,15 @@
     width: 60%;
     margin: 20px auto;
 }
+
+.centered{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5vw;
+    text-transform: uppercase;
+}
 #pendingOrder, #orderHistory{
     background-color: #fff;
     border-radius: 14px;
@@ -41,7 +50,7 @@
     box-sizing: border-box;
     width: 40%;
     height: 100%;
-    padding: 20px;
+    padding: 10px 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -51,6 +60,7 @@
     font-size: 2vw;
     line-height: 0.85em;
     font-weight: 600;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
 }
@@ -166,4 +176,26 @@
     font-weight: 600;
     font-size: 18px;
     margin-bottom: 10px;
+}
+
+#confirm{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
+    width: 80vw;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 14px;
+    background-color: #eeeef1;
+    border: 2px solid #DB4437;
+}
+#confirm > span{
+    font-size: 1.35vw;
+    font-weight: 600;
+}
+#confirm >div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
 }

@@ -16,7 +16,7 @@
 }
 
 #socialsContainer{
-    width: 10%;
+    width: 12%;
     height: 100%;
 }
 
@@ -56,4 +56,7 @@
 }
 .twt:hover{
     fill: #1DA1F2;
+}
+.gh:hover{
+    fill: #ffff99
 }

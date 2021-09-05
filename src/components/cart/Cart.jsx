@@ -42,8 +42,6 @@ export default function Cart() {
 
     const [quantity, setQuantity] = useState({})
 
-    console.log(quantity)
-
     const handleQuantity = (e, id) => {
         const value = e.currentTarget.value;
         if (!value || value == 0) {
@@ -70,7 +68,7 @@ export default function Cart() {
                 await axios({
                     method: 'POST',
                     url: '/cart',
-                    data: { user: data._id, item: { ...item, quantity: quantity }, operation: 'addToPending' }
+                    data: { user: data._id, item: { ...item, quantity: quantity[item._id] || 1 }, operation: 'addToPending' }
                 });
                 dispatch(fetchUserProfile(localStorage.getItem('userJwtToken')));
                 history.push('/orders')
@@ -87,8 +85,8 @@ export default function Cart() {
 
     if (!userProfile.login) {
         return (
-            <div>
-                <h1>Login to access cart</h1>
+            <div className={styles.centered}>
+                <span>Login to access cart</span>
             </div>
         )
     }
@@ -110,12 +108,12 @@ export default function Cart() {
                                 <span>{discount.toFixed(0)}% off</span>
                             </div>
                             <div>
-                                <TextField onChange={(e) => handleQuantity(e, item._id)} id="outlined-basic" label="Quantity" variant="outlined" defaultValue={quantity[item._id] || 1} />
+                                <TextField onChange={(e) => handleQuantity(e, item._id)} id="outlined-basic" label="Quantity" variant="outlined" defaultValue={quantity[item._id] || 1} type="number" />
                             </div>
                         </div>
                         <div id={styles.itemInfo}>
                             <span>{item.title}</span>
-                            <span>{item.description.length > 250 ? item.description.substr(0, 250) + '...' : item.description}</span>
+                            <span>{item.description.length > 250 ? item.description.substr(0, 200) + '...' : item.description}</span>
                         </div>
                         <div id={styles.buttonContainer}>
                             <Button onClick={() => handlePendingOrder(item)} color="primary" variant="outlined" size="large" startIcon={<Receipt />}>Confirm order</Button>

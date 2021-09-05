@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+:root{
+    --primary-font : Arial, Helvetica, sans-serif;
+    --fancy-font: 'Fira Sans', sans-serif;
+}
+*{
+    font-family: var(--primary-font);
+}
+
+.spinnerContainer{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* styling categories container */
+#catgoriesContainer{
+    width: 80%;
+    display: grid;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 30px 0;
+    grid-template: repeat(1, 300px)/repeat(auto-fit, 300px);
+    align-items: center;
+    justify-content: space-evenly;
+    grid-gap: 50px;
+    grid-auto-flow: dense;
+    grid-auto-rows: 300px;
+}
+.categoryEntry{
+    position: relative;
+    width: 80%;
+    height: 80%;
+    align-self: center;
+    justify-self: center;
+    border-radius: 50%;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #eeeef1;
+    border: 2px solid #4285F4;
+    transition: all 100ms linear;
+    cursor: pointer;
+    overflow: hidden;
+}
+.categoryEntry:hover{
+    border-color: #DB4437;
+    transform: scale(1.05);
+}
+.categoryEntry img{
+    position: absolute;
+    top: -3px;
+    left: -3px;;
+    object-fit: cover;
+    object-position: center;
+    width: calc(100% + 6px);
+    height: 70%;
+}
+
+.categoryEntry span{
+    position: absolute;
+    width: 100%;
+    height: 30%;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    font-family: var(--fancy-font);
+    font-weight: 600;
+    font-size: 1.3vw;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#resultCount, #noResults{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    font-size: 2vw;
+    margin: 20px;
+}
+.categoryHeading{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    font-family: var(--fancy-font);
+    text-transform: uppercase;
+    margin: 50px auto;
+    font-size: 2vw;
+    font-weight: 600;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+

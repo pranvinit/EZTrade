@@ -5,7 +5,7 @@ import styles from '../items.module.css';
 
 //material ui specific
 import { ShoppingCart, Payment, Edit, DeleteOutline } from '@material-ui/icons';
-import { Fab, CircularProgress } from '@material-ui/core';
+import { Fab, CircularProgress, Button } from '@material-ui/core';
 
 import axios from 'axios';
 
@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { fetchUserProfile } from '../../../containers/userAccount/userAccountSlice';
 
 
-export default function Item({ item, seller }) {
+export default function Item({ item, seller, editItem, deleteItem }) {
     const userProfile = useSelector((state) => state.userAccount);
     const data = userProfile.data;
 
@@ -113,8 +113,72 @@ export default function Item({ item, seller }) {
 
     }, [data, item])
 
+    const handleConfirm = async (option) => {
+        if (option === 'edit') {
+            setShowEdit(false)
+            editItem(item)
+        }
+        if (option === 'delete') {
+            const delItem = async () => {
+                try {
+                    const response = await axios({
+                        method: 'POST',
+                        url: '/addItem',
+                        data: { operation: 'delete', id: item._id }
+                    });
+                    deleteItem(true, response.data.message)
+
+                } catch (err) {
+                    deleteItem(false);
+                }
+            }
+            delItem();
+        }
+    }
+
+    //popup options
+    const [showEdit, setShowEdit] = useState(false);
+    const [showDel, setShowDel] = useState(false);
+    const edit = (
+        <div className={styles.popupContainer}>
+            <span>Do you want to edit this item?</span>
+            <div className={styles.sellerActions}>
+                <Button variant="outlined" color="primary" onClick={() => setShowEdit(false)}>cancel</Button>
+                <Button variant="outlined" color="secondary" onClick={() => handleConfirm('edit')}>edit</Button>
+            </div>
+        </div>
+    )
+    const del = (
+        <div className={styles.popupContainer}>
+            <span>Do you want to delete this item?</span>
+            <div className={styles.sellerActions}>
+                <Button variant="outlined" color="primary" onClick={() => setShowDel(false)}>cancel</Button>
+                <Button variant="outlined" color="secondary" onClick={() => handleConfirm('delete')}>delete</Button>
+            </div>
+        </div>
+    )
+
+    const ratingContainer = useRef();
+    const [rating, setRating] = useState(0);
+    useEffect(() => {
+        const totalRatings = Array.from(item.ratings.map(doc => doc.rating)).reduce((a, b) => a + b, 0)
+        const avgRatings = (totalRatings / item.ratings.length).toFixed(1)
+        setRating(avgRatings)
+        if (rating > 0 && rating < 2) {
+            ratingContainer.current.style.backgroundColor = '#ff6161'
+        }
+        else if (rating >= 2 && rating <= 3.5) {
+            ratingContainer.current.style.backgroundColor = '#ff9f00'
+        }
+        else if (rating > 2) {
+            ratingContainer.current.style.backgroundColor = '#388e3c'
+        }
+    }, [item, rating])
+
     return (
         <div id={styles.itemEntry}>
+            {showEdit && edit}
+            {showDel && del}
             <Link className={styles.singleItemLink} to={`/singleItem/${item._id}`}>
                 <div id={styles.itemTitleContainer}>
                     <span>{item.title.substr(0, 50)}</span>
@@ -138,18 +202,18 @@ export default function Item({ item, seller }) {
                     </Fab>
                 </div>}
                 {seller && <div>
-                    <Fab color="secondary" size="small" aria-label="edit">
+                    <Fab onClick={() => showEdit ? setShowEdit(false) : setShowEdit(true)} color="secondary" size="small" aria-label="edit">
                         <Edit />
                     </Fab>
-                    <Fab color="secondary" size="small" aria-label="delete">
+                    <Fab onClick={() => showDel ? setShowDel(false) : setShowDel(true)} color="secondary" size="small" aria-label="delete">
                         <DeleteOutline />
                     </Fab>
                 </div>}
             </div>
             <Link className={styles.singleItemLink} to={`/singleItem/${item._id}`}>
                 <div id={styles.itemReviewContainer}>
-                    <span className={styles.review}>4.5</span>
-                    <span className={styles.review}> 20 reviews</span>
+                    {item.ratings.length !== 0 ? <span ref={ratingContainer} className={styles.review} id={styles.rateCount}>{rating}</span> : <span className={styles.noReview}>No ratings</span>}
+                    <span className={styles.review}> {item.comments.length} reviews</span>
                 </div>
             </Link>
         </div>

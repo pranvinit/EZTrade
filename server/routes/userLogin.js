@@ -15,7 +15,7 @@ userLoginHandler.post('/', async (req, res) => {
                 const token = jwt.sign({ id: match.id }, 'allowAccess', {
                     expiresIn: (60 * 60 * 24)
                 })
-                res.status(200).json({ authentication: true, jwtToken: token, message: 'Authentication success,  Redirecting to home page..' })
+                res.status(200).json({ authentication: true, jwtToken: token, message: 'Authentication success,  Redirecting..' })
             } else {
                 res.status(200).json({ authentication: false, message: 'Wrong credentials, authentication failed' });
             }

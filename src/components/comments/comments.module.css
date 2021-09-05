@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+:root{
+    --primary-font : Arial, Helvetica, sans-serif;
+    --fancy-font: 'Fira Sans', sans-serif;
+}
+
+#commentSection{
+    background-color: #eeeef1;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    padding: 30px;
+    justify-content: space-evenly;
+}
+#commentForm{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+#commentInput{
+    overflow: hidden;
+    width: 50%;
+    min-height: 30px;
+    padding: 14px;
+    font-size: 20px;
+    margin-right: 50px;
+    margin-bottom: 30px;
+    transition: all 100ms linear;
+    border: 2px solid transparent;
+    background-color: #fff;
+}
+#commentInput:focus{
+    border-color: #4285F4;
+}
+#commentsContainer{
+    background-color: #fff;
+    border-radius: 14px;
+    margin: 20px 0;
+    width: 60vw;
+    padding: 15px;
+}
+#commentMeta{
+    margin-bottom: 10px;
+    font-family: var(--fancy-font);
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#commentMeta > div span:nth-child(1){
+    margin-right: 30px;
+}
+#comment{
+    font-family: var(--fancy-font);
+    font-size: 20px;  
+}

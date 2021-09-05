@@ -3,7 +3,14 @@
     --primary-font : Arial, Helvetica, sans-serif;
     --fancy-font: 'Fira Sans', sans-serif;
 }
-
+.centered{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5vw;
+    text-transform: uppercase;
+}
 
 #sellerInfoContainer{
     display: flex;
@@ -107,6 +114,7 @@
 }
 .productCat{
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     width: 70%;
 }
@@ -121,11 +129,22 @@
     width: 40%;
 }
 .fileCount{
+    font-family: var(--fancy-font);
     font-size: 20px;
-    font-weight: 500;
     letter-spacing: 0.015em;
     margin-left: 10px;
 }
 .productDetails{
     height: 300px;
+}
+.formActions{
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 20px 0;
+}
+#deleteAlert{
+    width: 100%;
+    margin-top: 50px;
 }

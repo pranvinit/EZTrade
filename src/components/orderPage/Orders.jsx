@@ -26,7 +26,7 @@ export default function Orders() {
                 await axios({
                     method: 'POST',
                     url: '/cart',
-                    data: { user: data._id, item: { ...item, paymentMode: paymentMode, orderDate: orderDate, orderTime: orderTime }, operation: 'placeOrder' }
+                    data: { user: data._id, item: { ...item, paymentMode: paymentMode[item._id], orderDate: orderDate, orderTime: orderTime }, operation: 'placeOrder' }
                 });
                 dispatch(fetchUserProfile(localStorage.getItem('userJwtToken')));
 
@@ -59,16 +59,19 @@ export default function Orders() {
     const [paymentMode, setPaymentMode] = useState({});
     const handleChange = (e, id) => {
         const value = e.target.value;
+        setShowConfirm(true)
         setPaymentMode(prev => ({
             ...prev,
             [id]: value
         }))
     }
 
+    const [showConfirm, setShowConfirm] = useState(true)
+
     if (!userProfile.login) {
         return (
-            <div>
-                <h1>Login to access the orders page</h1>
+            <div className={styles.centered}>
+                <span>Login to access orders</span>
             </div>
         )
     }
@@ -78,41 +81,50 @@ export default function Orders() {
             {data.pendingOrders.length ? <Alert className={styles.alert} severity="info">Pending orders</Alert> : <Alert className={styles.alert} severity="info">No pending orders</Alert>}
             {data.pendingOrders.slice().reverse().map((order, index) => {
                 return (
-                    <div id={styles.pendingOrder} key={index}>
+                    <div>
+                        <div id={styles.pendingOrder} key={index}>
 
-                        <div className={styles.itemImage}>
-                            <img src={order.paths[0]} alt={data.title} />
-                        </div>
-                        <div className={styles.pricing}>
-                            <div className={styles.price}>
-                                <span>Total</span>
-                                <div>
-                                    <span>&#8377;{order.discountedPrice} x {order.quantity}</span>
-                                    <span>&#8377;{order.discountedPrice * order.quantity}</span>
-                                </div>
+                            <div className={styles.itemImage}>
+                                <img src={order.paths[0]} alt={data.title} />
                             </div>
+                            <div className={styles.pricing}>
+                                <div className={styles.price}>
+                                    <span>Total</span>
+                                    <div>
+                                        <span>&#8377;{order.discountedPrice} x {order.quantity}</span>
+                                        <span>&#8377;{order.discountedPrice * order.quantity}</span>
+                                    </div>
+                                </div>
 
-                            <InputLabel id="paymentMode">Payment Mode</InputLabel>
-                            <Select
-                                labelId="paymentMode"
-                                value={paymentMode[order._id] || "Cash on delivery"}
-                                onChange={(e) => handleChange(e, order._id)}
-                            >
-                                <MenuItem value={"Cash on delivery"}>Cash on delivery</MenuItem>
-                                <MenuItem value={"Net banking"}>Net banking</MenuItem>
-                                <MenuItem value={"Upi"}>Upi</MenuItem>
-                            </Select>
+                                <InputLabel id="paymentMode">Payment Mode</InputLabel>
+                                <Select
+                                    labelId="paymentMode"
+                                    value={paymentMode[order._id] || "Cash on delivery"}
+                                    onChange={(e) => handleChange(e, order._id)}
+                                >
+                                    <MenuItem value={"Cash on delivery"}>Cash on delivery</MenuItem>
+                                    <MenuItem value={"Net banking"}>Net banking</MenuItem>
+                                    <MenuItem value={"Upi"}>Upi</MenuItem>
+                                </Select>
+                            </div>
+                            <div className={styles.itemInfo}>
+                                <span>{order.title}</span>
+                                <span>{order.description.length > 250 ? order.description.substr(0, 200) + '...' : order.description}</span>
+                            </div>
+                            <div id={styles.buttonContainer}>
+                                <Button onClick={() => handleOrder(order)} color="primary" variant="outlined" size="large" startIcon={<Payment />}>Place order</Button>
+                                <Button onClick={() => handleOrderCancel(order._id)} color="secondary" variant="outlined" size="large" startIcon={<Cancel />}>Cancel order</Button>
+                            </div>
                         </div>
-                        <div className={styles.itemInfo}>
-                            <span>{order.title}</span>
-                            <span>{order.description.length > 250 ? order.description.substr(0, 250) + '...' : order.description}</span>
-                        </div>
-                        <div id={styles.buttonContainer}>
-                            <Button onClick={() => handleOrder(order)} color="primary" variant="outlined" size="large" startIcon={<Payment />}>Place order</Button>
-                            <Button onClick={() => handleOrderCancel(order._id)} color="secondary" variant="outlined" size="large" startIcon={<Cancel />}>Cancel order</Button>
-                        </div>
-
+                        {(paymentMode[order._id] !== 'Cash on delivery' && paymentMode[order._id]) && showConfirm && <div id={styles.confirm}>
+                            <span>You have selected payment options that require you to pay now. Please complete the payment online at the seller's UPI number {order.sellerContact}</span>
+                            <div>
+                                <Alert id={styles.alert} severity="info">Your payment will be cofirmed by the seller before processing your order</Alert>
+                                <Button variant="outlined" color="primary" onClick={() => setShowConfirm(false)}>Confirm</Button>
+                            </div>
+                        </div>}
                     </div>
+
                 )
             })}
             {data.orders.length ? <Alert className={styles.alert} severity="success">Order history</Alert> : <Alert className={styles.alert} severity="info">No order history</Alert>}

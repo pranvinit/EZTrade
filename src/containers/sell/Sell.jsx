@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import styles from './sell.module.css';
-import moment from 'moment';
 //redux specific
 import { useSelector, useDispatch } from 'react-redux';
 //importing utils
 import AlertComponent from '../../utils/AlertComponent';
 //form specific
 import { Button, IconButton, ButtonGroup } from '@material-ui/core';
-import { AccountCircle, AddBox, PhotoCamera, AddCircleOutline, ExitToApp } from '@material-ui/icons';
+import { AccountCircle, AddBox, PhotoCamera, AddCircleOutline, RemoveCircleOutline, ExitToApp, DeleteOutline, Save } from '@material-ui/icons';
 import axios from 'axios';
+import moment from 'moment';
 
 //importing presentational components
 import Items from '../../components/items/Items'
@@ -19,7 +19,7 @@ import { sellerLogout } from '../sellerAccount/sellerAccountSlice';
 
 export default function Sell() {
     const sellerProfile = useSelector((state) => state.sellerAccount);
-    const data = sellerProfile.data
+    const sellerData = sellerProfile.data;
     const history = useHistory();
     const dispatch = useDispatch();
     const [formInput, setFormInput] = useState({});
@@ -88,17 +88,21 @@ export default function Sell() {
         Object.entries(formInput).map(item => {
             return data.append(item[0], item[1])
         })
-        Object.entries(data).map(item => {
-            if (item[0] === '_id') {
-                return data.append('sellerId', item[1])
-            } else {
-                return data.append(item[0], item[1])
-            }
-        })
-        formInput.files.forEach(file => data.append('files', file));
+        if (!formInput.operation) {
+            Object.entries(sellerData).map(info => {
+                if (info[0] === '_id') {
+                    return data.append('sellerId', info[1])
+                } else {
+                    return data.append(info[0], info[1])
+                }
+            })
+        }
+        if (formInput.files) {
+            formInput.files.forEach(file => data.append('files', file));
+        }
         const addItem = async () => {
             try {
-                await axios({
+                const response = await axios({
                     method: 'POST',
                     url: '/addItem',
                     data: data
@@ -106,9 +110,10 @@ export default function Sell() {
                 setResponse(prev => ({
                     ...prev,
                     operation: 'success',
-                    message: 'Item added successfully'
+                    message: response.data.message
                 }))
                 setOpen(true)
+                fetchSellerPosts()
             }
             catch (err) {
                 handleError(err.response)
@@ -127,26 +132,66 @@ export default function Sell() {
         history.push('/')
     }
 
-    //handing edit and delete options
     const [sellerItems, setSellerItems] = useState([])
-    useEffect(() => {
-        const fetchSellerPosts = async () => {
-            try {
-                const response = await axios({
-                    method: 'POST',
-                    url: '/sellerItems',
-                    data: { id: data._id }
-                });
+    const isMounted = useRef(false)
+    const fetchSellerPosts = async () => {
+        try {
+            const response = await axios({
+                method: 'POST',
+                url: '/sellerItems',
+                data: { id: sellerData._id }
+            });
+            if (isMounted.current) {
                 setSellerItems(response.data)
-
-            } catch (err) {
-                handleError(err.response)
             }
+        } catch (err) {
+            handleError(err.response)
         }
-        if (data._id) {
-            fetchSellerPosts()
+    }
+    // handing edit and delete options
+    useEffect(() => {
+        isMounted.current = true
+        fetchSellerPosts()
+        return () => isMounted.current = false;
+    }, [])
+
+    //for admin options
+    const editItem = (data) => {
+        setShowForm(true);
+        window.scrollTo(0, 0);
+        setFormInput(prev => ({
+            ...prev,
+            ...data,
+            operation: 'edit'
+        }))
+    }
+
+    //delete alert
+    const [show, setShow] = useState(false);
+    const [delAlert, setDelAlert] = useState(false);
+    const changeDelAlert = () => {
+        setDelAlert(false);
+        setShow(false);
+    }
+    const deleteItem = (operation, message) => {
+        window.scrollTo(0, 0);
+        fetchSellerPosts()
+        if (operation) {
+            setResponse(prev => ({
+                ...prev,
+                operation: 'success',
+                message: message
+            }))
+        } else {
+            setResponse(prev => ({
+                ...prev,
+                operation: 'warning',
+                message: 'Internal server error'
+            }))
         }
-    }, [data])
+        setShow(true);
+        setDelAlert(true);
+    }
 
     //add item form
     const addItemForm = useRef();
@@ -154,25 +199,33 @@ export default function Sell() {
     const [open, setOpen] = useState(false);
     const changeOpen = () => setOpen(false);
 
+    const [showForm, setShowForm] = useState(false);
+    const handleCancel = () => {
+        setFileCount(0);
+        setFormInput({});
+        setShowForm(false);
+    }
+
 
     if (sellerProfile.hasFetched) {
         return (
             <div id={styles.mainContainer}>
                 <div id={styles.sellerInfoContainer}>
-                    <span id={styles.sellerGreeting}>Welcome back {data.sellerName}</span>
+                    <span id={styles.sellerGreeting}>Welcome back {sellerData.sellerName}</span>
                     <div id={styles.sellerOptions}>
                         <Button onClick={handleSellerLogout} variant="contained" color="secondary" startIcon={<ExitToApp />}>Logout</Button>
                         <Button variant="contained" color="primary" size="large" startIcon={<AccountCircle />}>show your info</Button>
-                        <Button onClick={() => window.scrollTo(0, addItemForm.current.getBoundingClientRect().top)} variant="contained" color="secondary" size="large" startIcon={<AddBox />}>add item</Button>
+                        <Button onClick={() => showForm ? setShowForm(false) : setShowForm(true)} variant="contained" color="secondary" size="large" startIcon={!showForm ? <AddBox /> : <RemoveCircleOutline />}>{!showForm ? 'Add item' : 'Hide form'}</Button>
                     </div>
+                    {show && <div id={styles.deleteAlert}>
+                        <AlertComponent message={response.message} operation={response.operation} open={delAlert} changeOpen={changeDelAlert} />
+                    </div>}
                 </div>
-                {sellerItems.length !== 0 ? <span className={styles.sellerItemsHeading}>Items listed</span> : <span className={styles.sellerItemsHeading}>No items listed</span>}
-                {sellerItems.length !== 0 ? <Items items={sellerItems} seller={true} /> : <span>No items listed</span>}
-                <div id={styles.formContainer}>
+                {showForm && <div id={styles.formContainer}>
                     <AlertComponent message={response.message} operation={response.operation} open={open} changeOpen={changeOpen} />
                     <form ref={addItemForm} action="#" id={styles.addItemForm} onSubmit={handleSubmit}>
                         <span id={styles.signUpHeading}>Fill the form to add a new item</span>
-                        <input className={styles.productTitle} type="text" name="title" onChange={handleChange} value={formInput.title || ''} placeholder="Product title" maxLength="100" />
+                        <input className={styles.productTitle} type="text" name="title" onChange={handleChange} value={formInput.title || ''} placeholder="Product title" maxLength="100" required />
                         <textarea className={styles.productDesc} type="text" name="description" onChange={handleChange} value={formInput.description || ''} placeholder="Product description" required />
                         <ButtonGroup variant="text" className={styles.productCat} size="large" color="secondary" aria-label="outlined primary button group">
                             <Button onClick={handleGenderClick} value="pantry" disabled={formInput.category === 'pantry'}>Pantry</Button>
@@ -187,23 +240,30 @@ export default function Sell() {
                             <input className={styles.discountedPrice} type="number" name="discountedPrice" onChange={handleChange} value={formInput.discountedPrice || ''} placeholder="Discounted price" min="0" step="10" required />
                         </div>
                         <div>
-                            <input className={styles.fileInput} id="icon-button-file" type="file" name="images" onChange={handleFileChange} placeholder="Product images" multiple required />
+                            <input className={styles.fileInput} id="icon-button-file" type="file" name="images" onChange={handleFileChange} placeholder="Product images" multiple />
                             <label htmlFor="icon-button-file">
                                 <IconButton color="primary" aria-label="upload picture" component="span">
                                     <PhotoCamera />
                                 </IconButton>
                             </label>
-                            <span className={styles.fileCount}>{fileCount == 0 ? 'Click the icon to add images' : `${fileCount} images selected`}</span>
+                            {!fileCount && !formInput.paths ? <span className={styles.fileCount} style={{ color: "#DB4437" }} >required</span> : <span className={styles.fileCount}>{fileCount ? fileCount : formInput.paths.length} images selected</span>}
                         </div>
                         <textarea className={styles.productDetails} type="text" name="details" onChange={handleChange} value={formInput.details || ''} placeholder="Product details" required />
-                        <Button size="large" startIcon={<AddCircleOutline style={{ color: 'white' }} />} className={styles.subBtn} variant="contained" color="secondary" type="submit">Add item</Button>
+                        <div className={styles.formActions} >
+                            <Button size="large" startIcon={<DeleteOutline style={{ color: 'white' }} />} variant="contained" color="secondary" onClick={handleCancel}>Cancel</Button>
+                            <Button size="large" startIcon={!formInput.operation ? <AddCircleOutline style={{ color: 'white' }} /> : <Save style={{ color: 'white' }} />} variant="contained" color="primary" type="submit">{!formInput.operation ? 'Add item' : 'Update item'}</Button>
+                        </div>
                     </form>
-                </div>
+                </div>}
+                {sellerItems.length !== 0 ? <span className={styles.sellerItemsHeading}>{sellerItems.length} Items listed</span> : <span className={styles.sellerItemsHeading}>No items listed</span>}
+                {sellerItems.length !== 0 && <Items items={sellerItems} seller={true} editItem={editItem} deleteItem={deleteItem} />}
             </div>
         )
     } else {
         return (
-            <h1>Loading</h1>
+            <div className={styles.centered}>
+                <span>Login to access orders</span>
+            </div>
         )
     }
 

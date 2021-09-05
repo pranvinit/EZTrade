@@ -7,13 +7,23 @@
     font-size: 1.5vw;
     text-transform: uppercase;
 }
-#resultCount{
-    color: #666e;
-}
+
 #resultCount, #noResults{
     display: flex;
     align-items: center;
     height: 50px;
     font-size: 2vw;
     margin: 20px;
+}
+#resultCount{
+    color: #666e;
+}
+
+#queryInfo{
+    display: flex;
+    align-items: center;
+}
+.back{
+    margin-left: 20px;
+    cursor: pointer;
 }

@@ -4,9 +4,56 @@
     justify-content: center;
     margin: 20px 0;
 }
+#homeTop{
+    background-color: #ade8f4;
+}
 #alert{
     width: 20%;
     min-width: 200px;
     margin: 0 auto;
     margin-bottom: 20px;
+}
+.itemsHeading{
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    font-family: var(--fancy-font);
+    text-transform: uppercase;
+    margin: 50px 0;
+    font-size: 2vw;
+    font-weight: 600;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+#sortOptionContainer{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#sortOptionContainer > div{
+    position: absolute;
+    right: 10vw;
+    width: 150px;
+}
+.sortSelect{
+    width: 100%;
+}
+#scrollToPageTop{
+    position: fixed;
+    z-index: 3;
+    top: 85vh;
+    right: 50px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4285F4;
+    box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%);
+    cursor: pointer;
+    transition: all 200ms linear;
+    overflow: hidden;
 }

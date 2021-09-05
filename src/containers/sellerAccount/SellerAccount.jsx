@@ -113,7 +113,7 @@ export default function SellerAccount() {
                     </ButtonGroup>
                     <div className={styles.generalInfo}>
                         <input className={styles.smallInput} type="text" name="sellerName" onChange={handleChange} value={formInput.sellerName || ''} placeholder="Your name" required />
-                        <input className={`${styles.smallInput} ${styles.telInput}`} type="tel" name="sellerContact" onChange={handleChange} value={formInput.sellerContact || ''} placeholder="Whatsapp" pattern="[7-9]{1}[0-9]{9}" required />
+                        <input className={`${styles.smallInput} ${styles.telInput}`} type="tel" name="sellerContact" onChange={handleChange} value={formInput.sellerContact || ''} placeholder="UPI number" pattern="[7-9]{1}[0-9]{9}" required />
                     </div>
                     <input className={styles.emailInput} type="email" name="sellerEmail" onChange={handleChange} value={formInput.sellerEmail || ''} placeholder="Email" required />
                     <textarea className={styles.addressInput} name="shopAddress" onChange={handleChange} value={formInput.shopAddress || ''} placeholder="Shop address" required></textarea>
@@ -121,7 +121,7 @@ export default function SellerAccount() {
                 </form>
             </div>}
             <div id={styles.option}>
-                <Button variant="outlined" color="secondary" style={{ margin: '50px 0' }} size="large" onClick={handleLoginOption}>{loginOption ? 'sign up' : 'Already have an account? login'}</Button>
+                <Button variant="outlined" color="primary" style={{ marginTop: 50, marginBottom: 30 }} size="large" onClick={handleLoginOption}>{loginOption ? 'sign up' : 'Already have an account? login'}</Button>
             </div>
         </div>
     )
