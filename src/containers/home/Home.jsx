@@ -121,7 +121,7 @@ export default function Home() {
             <div id={styles.homeTop}>
                 <Searchbar />
                 <AlertComponent message={response.message} operation={response.operation} open={open} changeOpen={changeOpen} />
-                {featuredItems.length !== 0 ? <FeaturedItem items={featuredItems} /> : <span className={styles.itemsHeading}>No featured items</span>}
+                {featuredItems.length !== 0 ? <FeaturedItem items={featuredItems} /> : <div className={styles.spinnerContainer}><CircularProgress /></div>}
                 <Categories />
             </div>
             <div aria-label="scrollToPageTop" ref={scrollToPageTop} id={styles.scrollToPageTop} onClick={() => window.scrollTo(0, 0)}>
