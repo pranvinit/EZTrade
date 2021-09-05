@@ -13,7 +13,7 @@ c) Users can add a rating or a comment on any item.
 
 d) Users can search for an item with a search bar or sort the listed items.
 
-e) Users can select the quanity of items and the mode of payment in cart and order section and confirm their purchse.
+e) Users can select the quantity of items and the mode of payment in cart and order section and confirm their purchse.
 
 f) More to come
 
