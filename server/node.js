@@ -28,7 +28,7 @@ const reviewHandler = require('./routes/review.js');
 const featuredItemsHandler = require('./routes/featuredItems')
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://pranavOne:pranavTwo@cluster0.f9ksh.mongodb.net/ezTrade?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://username:password@cluster0.f9ksh.mongodb.net/ezTrade?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const connection = mongoose.connection;
 connection.on('error', console.error.bind(console, 'connection error: '));
