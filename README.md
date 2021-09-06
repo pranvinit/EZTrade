@@ -1,9 +1,9 @@
 # EZTrade
 E-commerce website with MERN stack
 
-Soon to be hosted
+Hosted on (PC only unfortunately) - https://eztradein.herokuapp.com/
 
-Features of dev build
+Features of hosted build -
 
 a) Users can create their profile and log in. All necessary data such as address and contact information will be retrived at each login to create a seamless experience.
 
